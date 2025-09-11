@@ -1,0 +1,22 @@
+# latexindent configuration file
+# Default behavior will be overwritten by the settings in this file
+
+# indentation
+defaultIndent: "  "
+
+# modify line breaks
+modifyLineBreaks: 1
+
+# text wrapping
+textWrapOptions:
+  columns: 80
+  hugeLineBreaks: all
+  separator: " "
+
+# environments
+environments:
+  justification: 1
+
+# commands
+commands:
+  justification: 1
