@@ -1,9 +1,19 @@
 -- lua/code/formatters/markdown.lua
 return {
-  formatters_by_ft = {
-    markdown = { "prettierd" },
-    -- Prettier 也支持其他文件类型，您可以按需添加
-    -- json = { "prettierd" },
-    -- yaml = { "prettierd" },
-  },
+	formatters_by_ft = {
+		markdown = { "prettier" },
+		json = { "prettier" },
+		yaml = { "prettier" },
+		html = { "prettier" },
+		css = { "prettier" },
+		javascript = { "prettier" },
+		typescript = { "prettier" },
+	},
+	formatters = {
+		prettier = {
+			command = "prettierd",
+			-- Pass the filename to ensure correct parser and config are used
+			args = { "--stdin-filepath", "$FILENAME" },
+		},
+	},
 }
