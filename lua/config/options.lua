@@ -3,18 +3,17 @@
 -- Add any additional options here
 -- vim.opt.spell = false
 -- setting <localleader> is
-vim.g.maplocalleader = ","
+vim.g.maplocalleader = ','
 -- -- vim.opt.clipboard = 'unnamedplus'
-vim.opt.clipboard = ""
-vim.g.mapleader = " "
+vim.opt.clipboard = ''
+vim.g.mapleader = ' '
 -- vim.o.relativenumber = true
 vim.o.number = true
 vim.o.relativenumber = true
 
-
-vim.o.tabstop = 2           -- Tab 键宽度设置为 2 个空格
-vim.o.shiftwidth = 2        -- 自动缩进宽度设置为 2 个空格
-vim.o.expandtab = true      -- 按 Tab 键时插入空格，而不是 Tab 字符
+vim.o.tabstop = 2 -- Tab 键宽度设置为 2 个空格
+vim.o.shiftwidth = 2 -- 自动缩进宽度设置为 2 个空格
+vim.o.expandtab = true -- 按 Tab 键时插入空格，而不是 Tab 字符
 
 -- Disable netrw
 vim.g.loaded_netrw = 1

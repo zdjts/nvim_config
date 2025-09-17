@@ -5,11 +5,11 @@ return {
   -- 推荐的懒加载方式：只在按下快捷键时加载
   keys = {
     {
-      "<leader>e",
+      '<leader>e',
       function()
-        require("oil").toggle_float()  -- 或者是 .open() 取决于你想要浮动还是替换buffer
+        require('oil').toggle_float() -- 或者是 .open() 取决于你想要浮动还是替换buffer
       end,
-      desc = "File browser (Oil)",
+      desc = 'File browser (Oil)',
     },
   },
   -- 依赖 echasnovski/mini.icons 来提供图标
@@ -36,16 +36,16 @@ return {
       default_file_explorer = true,
       -- oil 窗口内部的快捷键
       keymaps = {
-		    ['<C-l>'] = false,
-		    ['<C-k>'] = false,
-		    ['<C-j>'] = false,
-		    ['<C-r>'] = 'actions.refresh',
-		    ['<leader>y'] = 'actions.yank_entry',
-		    ['g.'] = false,
-		    ['zh'] = 'actions.toggle_hidden',
-		    ['\\'] = { 'actions.select', opts = { horizontal = true } },
-		    ['|'] = { 'actions.select', opts = { vertical = true } },
-		    ['q'] = 'actions.close',
+        ['<C-l>'] = false,
+        ['<C-k>'] = false,
+        ['<C-j>'] = false,
+        ['<C-r>'] = 'actions.refresh',
+        ['<leader>y'] = 'actions.yank_entry',
+        ['g.'] = false,
+        ['zh'] = 'actions.toggle_hidden',
+        ['\\'] = { 'actions.select', opts = { horizontal = true } },
+        ['|'] = { 'actions.select', opts = { vertical = true } },
+        ['q'] = 'actions.close',
         ['-'] = 'actions.parent',
         ['<C-h>'] = false,
         ['gd'] = {
@@ -53,7 +53,12 @@ return {
           callback = function()
             detail = not detail
             if detail then
-              require('oil').set_columns({ 'icon', 'permissions', 'size', 'mtime' })
+              require('oil').set_columns({
+                'icon',
+                'permissions',
+                'size',
+                'mtime',
+              })
             else
               require('oil').set_columns({ 'icon' })
             end

@@ -1,39 +1,39 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  branch = "master",
+  'nvim-treesitter/nvim-treesitter',
+  branch = 'master',
   lazy = false,
-  build = ":TSUpdate",
+  build = ':TSUpdate',
 
   -- 解释器列表
   ensure_installed = {
-    "bash",
-    "python",
-    "cpp",
-    "diff",
-    "html",
-    "xml",
-    "lua",
-    "luadoc",
-    "markdown",
-    "markdown_inline",
-    "query",
-    "vim",
-    "vimdoc",
-    "snakemake",
+    'bash',
+    'python',
+    'cpp',
+    'diff',
+    'html',
+    'xml',
+    'lua',
+    'luadoc',
+    'markdown',
+    'markdown_inline',
+    'query',
+    'vim',
+    'vimdoc',
+    'snakemake',
   },
   ignore_install = {
-    "latex",
+    'latex',
   },
   auto_install = true,
 
   config = function(_, opts)
-    require("nvim-treesitter.configs").setup {
+    require('nvim-treesitter.configs').setup({
       highlight = {
         enable = true,
-        disable = { "latex" },
-        additional_vim_regex_highlighting = { "ruby" },
+        disable = { 'latex' },
+        additional_vim_regex_highlighting = { 'ruby' },
       },
-    }
+    })
 
     -- 将 @variable 设置为特定的颜色
     -- 设置 Treesitter 的变量高亮。@variable 通常指代函数体内的局部变量。
@@ -52,6 +52,6 @@ return {
 
     -- 设置所有括号相关（这是你提供的代码，作用是让括号加粗，但不改变颜色）
     -- 这个设置会覆盖上面 @punctuation.bracket 的颜色设置，只保留 bold。
-    vim.api.nvim_set_hl(0, "@punctuation.bracket", { bold = true })
+    vim.api.nvim_set_hl(0, '@punctuation.bracket', { bold = true })
   end,
 }

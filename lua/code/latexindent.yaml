@@ -2,7 +2,7 @@
 # Default behavior will be overwritten by the settings in this file
 
 # indentation
-defaultIndent: "  "
+defaultIndent: '  '
 
 # modify line breaks
 modifyLineBreaks: 1
@@ -11,7 +11,7 @@ modifyLineBreaks: 1
 textWrapOptions:
   columns: 80
   hugeLineBreaks: all
-  separator: " "
+  separator: ' '
 
 # environments
 environments:
@@ -20,3 +20,4 @@ environments:
 # commands
 commands:
   justification: 1
+

@@ -1,113 +1,174 @@
 -- lua/core/keymaps.lua
 
-local wk = require("which-key")
+local wk = require('which-key')
 -- 创建特定文件的快捷键
-local run_key_group = vim.api.nvim_create_augroup("FileTypeKeyMaps", { clear = true })
+local run_key_group =
+  vim.api.nvim_create_augroup('FileTypeKeyMaps', { clear = true })
 function md_create()
-  vim.keymap.set("n", '<localleader>r', function()
-    require("peek").close()
-    require("peek").open()
+  vim.keymap.set('n', '<localleader>r', function()
+    require('peek').close()
+    require('peek').open()
   end)
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
   callback = md_create,
   group = run_key_group,
 })
 
 local keymaps = {
-  { "<leader>f", group = "file" },
-  { "<leader>b", group = "buffer" },
-  { "<leader>l", group = "lsp" },
-  { "<leader>t", group = "toggle" },
-  { "<leader>w", group = "window" },
-  { "<leader>d", group = "diagnostic" },
+  { '<leader>f', group = 'file' },
+  { '<leader>b', group = 'buffer' },
+  { '<leader>l', group = 'lsp' },
+  { '<leader>t', group = 'toggle' },
+  { '<leader>w', group = 'window' },
+  { '<leader>d', group = 'diagnostic' },
   -- Diagnostic keymaps
   {
-    "]e",
+    ']e',
     function()
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
     end,
-    desc = "Next Error",
+    desc = 'Next Error',
   },
   {
-    "[e",
+    '[e',
     function()
       vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
     end,
-    desc = "Prev Error",
+    desc = 'Prev Error',
   },
   {
-    "]w",
+    ']w',
     function()
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
     end,
-    desc = "Next Warning",
+    desc = 'Next Warning',
   },
   {
-    "[w",
+    '[w',
     function()
       vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
     end,
-    desc = "Prev Warning",
+    desc = 'Prev Warning',
   },
 }
 table.insert(keymaps, {
   -- Window navigation
-  { "<C-h>",      "<C-w>h",                       desc = "Window left",              mode = "n" },
-  { "<C-j>",      "<C-w>j",                       desc = "Window down",              mode = "n" },
-  { "<C-k>",      "<C-w>k",                       desc = "Window up",                mode = "n" },
-  { "<C-l>",      "<C-w>l",                       desc = "Window right",             mode = "n" },
+  {
+    '<C-h>',
+    '<C-w>h',
+    desc = 'Window left',
+    mode = 'n',
+  },
+  {
+    '<C-j>',
+    '<C-w>j',
+    desc = 'Window down',
+    mode = 'n',
+  },
+  {
+    '<C-k>',
+    '<C-w>k',
+    desc = 'Window up',
+    mode = 'n',
+  },
+  {
+    '<C-l>',
+    '<C-w>l',
+    desc = 'Window right',
+    mode = 'n',
+  },
 
-  { "<leader>fn", "<cmd>e<cr>",                   desc = "create file" },
-  { "[b",         "<cmd>BufferLineCyclePrev<cr>", desc = "previous buffer" },
-  { "]b",         "<cmd>BufferLineCycleNext<cr>", desc = "next buffer" },
+  { '<leader>fn', '<cmd>e<cr>', desc = 'create file' },
+  { '[b', '<cmd>BufferLineCyclePrev<cr>', desc = 'previous buffer' },
+  { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'next buffer' },
 
   -- lsp config
-  { "gd",         vim.lsp.buf.definition,         desc = "LSP: Goto Definition",     mode = "n" },
-  { "gr",         vim.lsp.buf.references,         desc = "LSP: Goto References",     mode = "n" },
-  { "gD",         vim.lsp.buf.declaration,        desc = "LSP: Goto Declaration",    mode = "n" },
-  { "K",          vim.lsp.buf.hover,              desc = "LSP: Hover Documentation", mode = "n" },
+  {
+    'gd',
+    vim.lsp.buf.definition,
+    desc = 'LSP: Goto Definition',
+    mode = 'n',
+  },
+  {
+    'gr',
+    vim.lsp.buf.references,
+    desc = 'LSP: Goto References',
+    mode = 'n',
+  },
+  {
+    'gD',
+    vim.lsp.buf.declaration,
+    desc = 'LSP: Goto Declaration',
+    mode = 'n',
+  },
+  {
+    'K',
+    vim.lsp.buf.hover,
+    desc = 'LSP: Hover Documentation',
+    mode = 'n',
+  },
 
-  { "<leader>la", vim.lsp.buf.code_action,        desc = "LSP: Code Action",         mode = "n" },
-  { "<leader>ln", vim.lsp.buf.rename,             desc = "LSP: Rename",              mode = "n" },
-  { "<leader>ld", vim.diagnostic.open_float,      desc = "LSP: Line Diagnostics",    mode = "n" },
-  { "<c-/>",      "<cmd>ToggleTerm<CR>",          desc = "Toggle terminal",          mode = "n" },
+  {
+    '<leader>la',
+    vim.lsp.buf.code_action,
+    desc = 'LSP: Code Action',
+    mode = 'n',
+  },
+  {
+    '<leader>ln',
+    vim.lsp.buf.rename,
+    desc = 'LSP: Rename',
+    mode = 'n',
+  },
+  {
+    '<leader>ld',
+    vim.diagnostic.open_float,
+    desc = 'LSP: Line Diagnostics',
+    mode = 'n',
+  },
+  {
+    '<c-/>',
+    '<cmd>ToggleTerm<CR>',
+    desc = 'Toggle terminal',
+    mode = 'n',
+  },
 
   -- flash.nvim config
   {
-    "s",
+    's',
     function()
-      require("flash").jump()
+      require('flash').jump()
     end,
-    desc = "Flash",
-    mode = { "n", "x", "o" },
+    desc = 'Flash',
+    mode = { 'n', 'x', 'o' },
   },
   {
-    "S",
+    'S',
     function()
-      require("flash").treesitter()
+      require('flash').treesitter()
     end,
 
-    desc = "Flash Treesitter",
-    mode = { "n", "x", "o" },
+    desc = 'Flash Treesitter',
+    mode = { 'n', 'x', 'o' },
   },
 
   -- Conform.nvim (Formatter)
   {
-    "<leader>fc",
+    '<leader>fc',
     function()
-      require("conform").format({ async = true, lsp_fallback = true })
+      require('conform').format({ async = true, lsp_fallback = true })
     end,
-    desc = "Format buffer",
-    mode = { "n", "v" },
+    desc = 'Format buffer',
+    mode = { 'n', 'v' },
   },
   {
-    "<leader>ft",
-    "<cmd>ToggleTerm<CR>",
-    desc = "ToggleTerm",
-    mode = "n",
+    '<leader>ft',
+    '<cmd>ToggleTerm<CR>',
+    desc = 'ToggleTerm',
+    mode = 'n',
   },
 })
 

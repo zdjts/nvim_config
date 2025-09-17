@@ -10,5 +10,4 @@ return {
     'configure.ac', -- AutoTools
     '.git',
   },
-
 }
