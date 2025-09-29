@@ -53,7 +53,16 @@ return {
               fallback()
             end
           end, { 'i', 's' }),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          -- 手动触发 / 取消 (Escape) 的智能映射
+          ['<C-Space>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              -- 1. 如果补全菜单可见，则关闭它（相当于 Escape）
+              cmp.close()
+            else
+              -- 2. 如果补全菜单不可见，则手动触发补全
+              cmp.complete()
+            end
+          end, { 'i', 's' }), -- 适用于插入模式 (i) 和选择模式 (s)
         }),
         -- Completion sources, order matters
         sources = cmp.config.sources({
