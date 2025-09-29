@@ -53,6 +53,7 @@ return {
               fallback()
             end
           end, { 'i', 's' }),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
           -- 手动触发 / 取消 (Escape) 的智能映射
           ['<C-Space>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
