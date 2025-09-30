@@ -31,13 +31,15 @@ Mason 是 Neovim 的包管理器，用于管理 LSP 服务器、格式化工具�
 - `stylua` - Lua 代码格式化工具
 - `texlab` - LaTeX 语言服务器
 - `typescript-language-server` - TypeScript 语言服务器
+- `html-lsp` - HTML及CSS语言服务器
+- `vscode-solidity-server` - solidity 语言服务器
 
 ### 2.3 安装命令
 
 在 Neovim 中执行以下命令安装所有工具：
 
 ```
-:MasonInstall clang-format clangd cmake-language-server latexindent llm-ls lua-language-server marksman prettierd ruff shfmt stylua texlab typescript-language-server
+:MasonInstall clang-format clangd cmake-language-server latexindent llm-ls lua-language-server marksman prettierd ruff shfmt stylua texlab typescript-language-server html-lsp vscode-solidity-server
 ```
 
 ## 3. 格式化配置文件

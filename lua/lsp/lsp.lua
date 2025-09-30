@@ -7,6 +7,7 @@ vim.lsp.enable('cmake')
 vim.lsp.enable('texlab')
 vim.lsp.enable('tsserver')
 vim.lsp.enable('html-lsp')
+vim.lsp.enable('solidity_ls')
 -- lua/lsp/lsp.lua
 --
 -- LSP 通用配置文件
