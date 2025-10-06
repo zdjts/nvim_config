@@ -8,6 +8,7 @@ vim.lsp.enable('texlab')
 vim.lsp.enable('tsserver')
 vim.lsp.enable('html-lsp')
 vim.lsp.enable('solidity_ls')
+vim.lsp.enable('cssls')
 -- lua/lsp/lsp.lua
 --
 -- LSP 通用配置文件
