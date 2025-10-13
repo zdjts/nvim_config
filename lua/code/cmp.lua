@@ -19,6 +19,7 @@ return {
       'hrsh7th/cmp-nvim-lua',
       -- Bridge between cmp and luasnip
       'saadparwaiz1/cmp_luasnip',
+      'Kurama622/llm.nvim',
     },
     config = function()
       local cmp = require('cmp')
@@ -68,11 +69,26 @@ return {
         -- Completion sources, order matters
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
+          { name = 'llm', group_index = 1 },
           { name = 'luasnip' },
           { name = 'buffer' },
           { name = 'path' },
           { name = 'nvim_lua' },
         }),
+        performance = {
+          -- LLM 响应比 LSP 慢，调高超时时间可以防止补全被过早中断
+          fetching_timeout = 5000,
+        },
+        formatting = {
+          format = function(entry, vim_item)
+            -- 为 llm 源添加一个酷炫的图标
+            if entry.source.name == 'llm' then
+              vim_item.kind = ' ' -- Nerd Font 图标 (Brain)
+              vim_item.menu = '[LLM]'
+            end
+            return vim_item
+          end,
+        },
         -- Optional: Add a border to the completion window
         window = {
           completion = cmp.config.window.bordered(),
