@@ -19,6 +19,16 @@ return {
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    image = {
+      enabled = true,
+      doc = {
+        enabled = true,
+        inline = false,
+        float = true,
+        max_width = 80,
+        max_height = 20,
+      },
+    },
   },
   config = function()
     local map = function(key, func, _desc)
@@ -27,7 +37,7 @@ return {
     map('<leader>ff', Snacks.picker.smart, 'Smart find file')
     map('<leader>fw', Snacks.picker.grep, 'Find content')
     map('<leader>fh', Snacks.picker.help, 'Find help')
-
+    map('<leader>bc', Snacks.bufdelete.delete, 'Delete buffers')
     -- Show dashboard on startup
     -- 		vim.api.nvim_create_autocmd("VimEnter", {
     -- 			nested = true,
