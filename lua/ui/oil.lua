@@ -13,7 +13,7 @@ return {
     },
   },
   -- 依赖 echasnovski/mini.icons 来提供图标
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = { 'nvim-tree/nvim-web-devicons', 'benomahony/oil-git.nvim' },
 
   -- 将所有配置逻辑都放入 config 函数中
   config = function()
