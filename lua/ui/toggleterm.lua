@@ -2,6 +2,7 @@
 
 return {
   'akinsho/toggleterm.nvim',
+  cmd = 'ToggleTerm',
   version = '*', -- 建议锁定版本以确保稳定
   config = function()
     require('toggleterm').setup({

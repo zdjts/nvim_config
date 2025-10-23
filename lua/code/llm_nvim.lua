@@ -30,8 +30,7 @@ return {
           -- 2. 动态生成 Prompt
           prompt = function()
             -- 获取暂存区的 diff 内容
-            local diff_content =
-              vim.fn.system('git diff --no-ext-diff --staged')
+            local diff_content = vim.fn.system('git diff --no-ext-diff --staged')
 
             -- 将 diff 内容格式化到 Prompt 模板中
             return string.format(
@@ -103,13 +102,12 @@ return {
                 local commit_cmd_part = table.concat(contents, '" -m "')
 
                 -- c. 构建并执行 git commit 命令
-                local final_cmd =
-                  string.format('!git commit -m "%s"', commit_cmd_part)
+                local final_cmd = string.format('!git commit -m "%s"', commit_cmd_part)
                 vim.api.nvim_command(final_cmd)
 
                 -- d. (可选) 提交后自动打开 LazyGit，方便推送
                 vim.schedule(function()
-                  vim.api.nvim_command('LazyGit')
+                  require('snacks').lazygit.open()
                 end)
               end,
             },
@@ -181,10 +179,7 @@ You must:
                 local filepath = '/tmp/script.sh'
 
                 vim.notify(
-                  string.format(
-                    'CodeRunner is running...\n```bash\n%s\n```',
-                    code
-                  ),
+                  string.format('CodeRunner is running...\n```bash\n%s\n```', code),
                   vim.log.levels.INFO,
                   { title = 'llm: CodeRunner' }
                 )
@@ -193,15 +188,11 @@ You must:
                 if file then
                   file:write(code)
                   file:close()
-                  local script_result = vim
-                    .system({ 'bash', filepath }, { text = true })
-                    :wait()
+                  local script_result = vim.system({ 'bash', filepath }, { text = true }):wait()
                   os.remove(filepath)
 
                   -- 【改进点】检查输出是否为空
-                  if
-                    script_result.stdout == nil or script_result.stdout == ''
-                  then
+                  if script_result.stdout == nil or script_result.stdout == '' then
                     if script_result.stderr and script_result.stderr ~= '' then
                       return '脚本执行出错: ' .. script_result.stderr
                     else

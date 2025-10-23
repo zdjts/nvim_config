@@ -1,7 +1,7 @@
 return {
   'stevearc/oil.nvim',
 
-  lazy = false,
+  event = 'VimEnter',
   -- 推荐的懒加载方式：只在按下快捷键时加载
   keys = {
     {

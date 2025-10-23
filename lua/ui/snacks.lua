@@ -1,7 +1,5 @@
 return {
   'folke/snacks.nvim',
-  priority = 1000,
-  lazy = false,
   -- 移除整个 opts 表格
   -- config 函数现在负责所有配置
   config = function()
