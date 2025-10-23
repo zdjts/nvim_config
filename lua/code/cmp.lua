@@ -103,6 +103,7 @@ return {
     'L3MON4D3/LuaSnip',
     -- Follow latest release.
     version = 'v2.*',
+    event = 'InsertEnter',
     -- Build step is optional, but recommended for performance.
     build = 'make install_jsregexp',
     config = function()

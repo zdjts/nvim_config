@@ -1,8 +1,8 @@
 -- lua/code/conform.lua
 return {
   'stevearc/conform.nvim',
-  -- event = { "BufWritePre" }, -- 我们将通过 autocmd 手动控制
-  -- cmd = { "ConformInfo" },
+  event = { 'BufWritePre' }, -- 我们将通过 autocmd 手动控制
+  cmd = { 'ConformInfo' },
   dependencies = { 'mason.nvim' },
   config = function()
     local conform = require('conform')
