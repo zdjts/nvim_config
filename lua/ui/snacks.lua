@@ -80,12 +80,12 @@ return {
     require('snacks').setup({
       -- 所有的配置项都在这里
       bigfile = { enabled = true },
-      dashboard = { enabled = true },
+      dashboard = { enabled = false },
       explorer = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
       picker = { enabled = true },
-      notifier = { enabled = true },
+      notifier = { enabled = false },
       quickfile = { enabled = true },
       scope = { enabled = true },
       statuscolumn = { enabled = true },

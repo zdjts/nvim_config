@@ -3,7 +3,8 @@ return {
   branch = 'master',
   lazy = true,
   build = ':TSUpdate',
-  event = 'BufReadPre',
+  event = { 'BufReadPost', 'BufNewFile' },
+  -- event = { 'BufReadPost' },
   config = function()
     require('nvim-treesitter.configs').setup({
       ensure_installed = {
@@ -19,7 +20,7 @@ return {
         'query',
         'vim',
         'vimdoc',
-        -- 'verilog',
+        'verilog',
       },
       auto_install = false,
       highlight = {

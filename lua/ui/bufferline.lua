@@ -1,7 +1,7 @@
 return {
   {
     'akinsho/bufferline.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     -- 依赖图标插件
     dependencies = { 'nvim-tree/nvim-web-devicons' },
 

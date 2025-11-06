@@ -1,7 +1,6 @@
 -- ~/.config/nvim/init.lua (或 lazy.lua)
 -- 引导 lazy.nvim
 require('config.autocmds')
-require('lsp.lsp')
 require('config.options')
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -35,3 +34,4 @@ require('lazy').setup({
   checker = { enabled = true },
 })
 require('config.keymaps')
+require('lsp.lsp')
