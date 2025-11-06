@@ -36,12 +36,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- 定义一个快捷键映射的辅助函数，确保只对当前缓冲区生效
     local map = function(mode, lhs, rhs, desc)
-      vim.keymap.set(
-        mode,
-        lhs,
-        rhs,
-        { buffer = bufnr, silent = true, desc = desc }
-      )
+      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
     end
 
     -- 切换诊断信息显示的逻辑
@@ -49,16 +44,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', '<leader>td', function()
       if diag_status == 1 then
         diag_status = 0
-        vim.diagnostic.config(
-          { underline = false, virtual_text = false, signs = false },
-          0
-        )
+        vim.diagnostic.config({ underline = false, virtual_text = false, signs = false }, 0)
       else
         diag_status = 1
-        vim.diagnostic.config(
-          { underline = true, virtual_text = true, signs = true },
-          0
-        )
+        vim.diagnostic.config({ underline = true, virtual_text = true, signs = true }, 0)
       end
     end, 'LSP: Toggle diagnostics display')
 
@@ -70,28 +59,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     -- Inlay Hints (如果 LSP 支持)
-    if
-      client
-      and client.supports_method(
-        vim.lsp.protocol.Methods.textDocument_inlayHint
-      )
-    then
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
       map('n', '<leader>th', function()
-        vim.lsp.inlay_hint.enable(
-          not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-        )
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
       end, 'LSP: Toggle Inlay Hints')
     end
 
     -- 光标下单词高亮 (如果 LSP 支持)
-    if
-      client
-      and client.supports_method(
-        vim.lsp.protocol.Methods.textDocument_documentHighlight
-      )
-    then
-      local highlight_augroup =
-        vim.api.nvim_create_augroup('my-lsp-highlight', { clear = true })
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+      local highlight_augroup = vim.api.nvim_create_augroup('my-lsp-highlight', { clear = true })
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = bufnr,
         group = highlight_augroup,
@@ -129,11 +105,7 @@ vim.diagnostic.config({
 -- ===================================================================
 -- 4. 添加方便的自定义命令
 -- ===================================================================
-vim.api.nvim_create_user_command(
-  'LspInfo',
-  ':checkhealth lsp',
-  { desc = 'Alias to `:checkhealth lsp`' }
-)
+vim.api.nvim_create_user_command('LspInfo', ':checkhealth lsp', { desc = 'Alias to `:checkhealth lsp`' })
 
 vim.api.nvim_create_user_command('LspLog', function()
   vim.cmd(string.format('tabnew %s', vim.lsp.get_log_path()))

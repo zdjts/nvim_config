@@ -3,8 +3,9 @@ return {
   branch = 'master',
   lazy = true,
   build = ':TSUpdate',
-  event = { 'BufReadPost', 'BufNewFile' },
+  -- event = { 'BufReadPost', 'BufNewFile' },
   -- event = { 'BufReadPost' },
+  event = 'VeryLazy',
   config = function()
     require('nvim-treesitter.configs').setup({
       ensure_installed = {
