@@ -19,8 +19,9 @@ return {
         'query',
         'vim',
         'vimdoc',
+        -- 'verilog',
       },
-      auto_install = true,
+      auto_install = false,
       highlight = {
         enable = true,
       },

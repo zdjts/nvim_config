@@ -1,6 +1,6 @@
 return {
   'folke/noice.nvim',
-  event = 'VeryLazy',
+  event = 'VimEnter',
   opts = {
     -- **新增：视图配置**
     views = {
