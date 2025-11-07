@@ -34,35 +34,35 @@ return {
 
             -- 将 diff 内容格式化到 Prompt 模板中
             return string.format(
-              [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
-      1. First line: conventional commit format (type: concise description) (remember to use semantic types like feat, fix, docs, style, refactor, perf, test, chore, etc.)
-      2. Optional bullet points if more context helps:
-        - Keep the second line blank
-        - Keep them short and direct
-        - Focus on what changed
-        - Always be terse
-        - Don't overly explain
-        - Drop any fluffy or formal language
+              [[你是一个遵循 Conventional Commit 规范的专家。请根据下面列出的 git diff 内容为我生成一个提交信息：
+      1. 第一行：常规提交格式（类型：简洁描述）（记住使用语义化类型如 feat、fix、docs、style、refactor、perf、test、chore 等）
+      2. 如果需要更多上下文，可选的要点：
+        - 保持第二行为空
+        - 保持简短直接
+        - 专注于变更内容
+        - 始终保持简洁
+        - 不要过度解释
+        - 避免任何华丽或正式的语言
 
-      Return ONLY the commit message - no introduction, no explanation, no quotes around it.
+      只返回提交信息 - 不要介绍，不要解释，不要用引号包围。
 
-      Examples:
-      feat: add user auth system
+      示例：
+      feat: 添加用户认证系统
 
-      - Add JWT tokens for API auth
-      - Handle token refresh for long sessions
+      - 为 API 认证添加 JWT 令牌
+      - 处理长时间会话的令牌刷新
 
-      fix: resolve memory leak in worker pool
+      fix: 解决工作池中的内存泄漏
 
-      - Clean up idle connections
-      - Add timeout for stale workers
+      - 清理空闲连接
+      - 为陈旧工作线程添加超时
 
-      Simple change example:
-      fix: typo in README.md
+      简单变更示例：
+      fix: 修复 README.md 中的拼写错误
 
-      Very important: Do not respond with any of the examples. Your message must be based off the diff that is about to be provided, with a little bit of styling informed by the recent commits you're about to see.
+      非常重要：不要回复任何示例。你的消息必须基于即将提供的 diff，并根据你即将看到的最近提交进行少量样式调整。
 
-      Based on this format, generate appropriate commit messages. Respond with message only. DO NOT format the message in Markdown code blocks, DO NOT use backticks:
+      基于此格式，生成适当的提交信息。仅返回消息。不要将消息格式化为 Markdown 代码块，不要使用反引号：
 
       ```diff
       %s
@@ -115,36 +115,36 @@ return {
         },
         -- 将这段代码放入您的 llm.setup() 的 app_handler = { ... } 中
         DocString = {
-          prompt = [[ You are an AI programming assistant. You need to write a really good docstring that follows a best practice for the given language.
+          prompt = [[ 你是一个 AI 编程助手。你需要为给定的语言编写一个遵循最佳实践的优秀文档字符串。
 
-Your core tasks include:
-- parameter and return types (if applicable).
-- any errors that might be raised or returned, depending on the language.
+你的核心任务包括：
+- 参数和返回类型（如果适用）
+- 可能引发或返回的任何错误，取决于语言
 
-You must:
-- Place the generated docstring before the start of the code.
-- Follow the format of examples carefully if the examples are provided.
-- Use Markdown formatting in your answers.
-- Include the programming language name at the start of the Markdown code blocks.]],
+你必须：
+- 将生成的文档字符串放在代码开始之前
+- 如果提供了示例，请仔细遵循示例的格式
+- 在答案中使用 Markdown 格式
+- 在 Markdown 代码块开头包含编程语言名称]],
           handler = tools.action_handler,
           opts = {
             only_display_diff = true,
             templates = {
               -- Lua 的模板
-              lua = [[- For the Lua language, you should use the LDoc style.
-- Start all comment lines with "---".
+              lua = [[- 对于 Lua 语言，你应该使用 LDoc 风格
+- 所有注释行都以 "---" 开头
 ]],
               -- 新增：C++ (cpp) 的模板
-              cpp = [[- For C++, you must follow the Google C++ Style Guide for comments.
-- Use Doxygen-style comments.
-- Use `@param` for parameters and `@return` for return values.
-- Example:
+              cpp = [[- 对于 C++，你必须遵循 Google C++ 风格指南的注释规范
+- 使用 Doxygen 风格的注释
+- 使用 `@param` 表示参数，`@return` 表示返回值
+- 示例：
   /**
-   * @brief A brief description of the function.
+   * @brief 函数的简要描述
    *
-   * A more detailed description of what the function does.
-   * @param param_name A description of the parameter.
-   * @return A description of what the function returns.
+   * 函数功能的更详细描述
+   * @param param_name 参数的描述
+   * @return 函数返回值的描述
    */
 ]],
             },
@@ -152,7 +152,7 @@ You must:
         },
         BashRunner = {
           handler = tools.qa_handler,
-          prompt = [[Write a suitable bash script and run it through CodeRunner]],
+          prompt = [[编写一个合适的 bash 脚本并通过 CodeRunner 运行它]],
           opts = {
             enable_thinking = false,
 
@@ -179,7 +179,7 @@ You must:
                 local filepath = '/tmp/script.sh'
 
                 vim.notify(
-                  string.format('CodeRunner is running...\n```bash\n%s\n```', code),
+                  string.format('CodeRunner 正在运行...\n```bash\n%s\n```', code),
                   vim.log.levels.INFO,
                   { title = 'llm: CodeRunner' }
                 )
@@ -211,12 +211,12 @@ You must:
                 type = 'function',
                 ['function'] = {
                   name = 'CodeRunner',
-                  description = 'Bash code interpreter',
+                  description = 'Bash 代码解释器',
                   parameters = {
                     properties = {
                       code = {
                         type = 'string',
-                        description = 'bash code',
+                        description = 'bash 代码',
                       },
                     },
                     required = { 'code' },
@@ -294,7 +294,7 @@ You must:
               toggle = {
                 mode = 'n',
                 keys = '<leader>cp',
-                desc = 'reverse LLM Lsp status',
+                desc = '反转 LLM Lsp 状态',
               },
               virtual_text = {
                 accept = {
@@ -323,7 +323,7 @@ You must:
             component_width = '60%',
             component_height = '50%',
             query = {
-              title = ' 󰊿 Trans ',
+              title = ' 󰊿 翻译 ',
               hl = { link = 'Define' },
             },
             input_box_opts = {
@@ -348,37 +348,37 @@ You must:
       '<leader>ac',
       mode = 'n',
       '<cmd>LLMSessionToggle<cr>',
-      desc = 'AI Session Toggle',
+      desc = 'AI 会话切换',
     },
     {
       '<leader>at',
       mode = { 'n', 'v' },
       '<cmd>LLMAppHandler Translate<cr>',
-      desc = 'AI Translator',
+      desc = 'AI 翻译器',
     },
     {
       '<leader>an',
       mode = { 'n', 'v' },
       '<cmd>LLMAppHandler OptimCompare<cr>',
-      desc = 'AI Optimizer',
+      desc = 'AI 优化器',
     },
     {
       '<leader>ag',
       mode = 'n',
       '<cmd>LLMAppHandler CommitMsg<cr>',
-      desc = ' Generate AI Commit Message',
+      desc = '生成 AI 提交信息',
     },
     {
       '<leader>ad',
       mode = 'v',
       '<cmd>LLMAppHandler DocString<cr>',
-      desc = ' Generate a Docstring',
+      desc = '生成文档字符串',
     },
     {
       '<leader>ar',
       mode = 'n',
       '<cmd>LLMAppHandler BashRunner<cr>',
-      desc = ' BashRunner',
+      desc = 'Bash 运行器',
     },
   },
 }

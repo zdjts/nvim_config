@@ -17,6 +17,7 @@ return {
     'nvim-mini/mini.icons',
   }, -- if you use standalone mini plugins
   ft = { 'markdown', 'llm' },
+  -- event = 'VeryLazy',
 
   config = function()
     require('render-markdown').setup({
