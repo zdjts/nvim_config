@@ -13,8 +13,8 @@ return {
   你的核心任务包括：
   - 准确识别输入文本的语言构成。
   - 严格遵循以下规则进行翻译：
-    1. 如果输入为纯中文，将其翻译为英文。
-    2. 如果输入为纯英文，将其翻译为中文。
+    1. 如果输入为中文，将其翻译为英文。
+    2. 如果输入为英文，将其翻译为中文。
     3. 如果输入中同时包含中文和英文，请根据理解和要求转为对应的语言。
 
   你必须：
@@ -24,6 +24,10 @@ return {
     ]],
   opts = {
     -- 所有的 UI 配置都从您的原始代码中迁移过来
+
+    url = 'https://api.siliconflow.cn/v1/chat/completions',
+    model = 'Qwen/Qwen3-Omni-30B-A3B-Instruct',
+    api_type = 'openai',
     component_width = '60%',
     component_height = '50%',
     query = {

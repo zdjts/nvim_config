@@ -7,8 +7,7 @@ return {
   formatters = {
     shfmt = {
       -- Indent with 2 spaces
-      args = { '-i', '2' },
+      args = { '-i', '4' },
     },
   },
 }
-

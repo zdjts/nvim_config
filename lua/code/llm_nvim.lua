@@ -28,36 +28,50 @@ return {
       max_tokens = 4096,
       temperature = 0.3,
       top_p = 0.7,
+      models = {
+        {
+          name = 'TinyLlama',
+          model = 'tinyllama:latest',
+          url = 'http://localhost:11434/api/chat',
+          api_type = 'ollama',
+        },
+        {
+          name = 'Gemma 3 (12B)',
+          model = 'gemma3:12b',
+          url = 'http://localhost:11434/api/chat',
+          api_type = 'ollama',
+        },
+      },
 
       prefix = {
-        user = { text = "  ", hl = "Title" },
-        assistant = { text = "  ", hl = "Added" },
+        user = { text = '  ', hl = 'Title' },
+        assistant = { text = '  ', hl = 'Added' },
       },
-      style = "right", -- right | left | top | bottom
+      style = 'right', -- right | left | top | bottom
       chat_ui_opts = {
         input = {
           split = {
-            relative = "win",
+            relative = 'win',
             position = {
-              row = "80%",
-              col = "50%",
+              row = '80%',
+              col = '50%',
             },
             border = {
               text = {
-                top = "  Enter Your Question ",
-                top_align = "center",
+                top = '  Enter Your Question ',
+                top_align = 'center',
               },
             },
             win_options = {
               winblend = 0,
-              winhighlight = "Normal:String,FloatBorder:LlmYellowLight,FloatTitle:LlmYellowNormal",
+              winhighlight = 'Normal:String,FloatBorder:LlmYellowLight,FloatTitle:LlmYellowNormal',
             },
-            size = { height = 2, width = "80%" },
+            size = { height = 2, width = '80%' },
           },
         },
         output = {
           split = {
-            size = "40%",
+            size = '40%',
           },
         },
         history = {
@@ -65,73 +79,70 @@ return {
             -- Default: true.
             -- If the window flickers when the cursor moves on macOS, you can set enable_fzf_focus_print = false.
             enable_fzf_focus_print = true,
-            size = "60%",
+            size = '60%',
           },
         },
         models = {
           split = {
-            relative = "win",
-            size = { height = "30%", width = "60%" },
+            relative = 'win',
+            size = { height = '30%', width = '60%' },
           },
         },
       },
       -- popup window options
       popwin_opts = {
-        relative = "cursor",
+        relative = 'cursor',
         enter = true,
         focusable = true,
         zindex = 50,
         position = { row = -7, col = 15 },
-        size = { height = 15, width = "50%" },
-        border = { style = "single", text = { top = " Explain ", top_align = "center" } },
+        size = { height = 15, width = '50%' },
+        border = { style = 'single', text = { top = ' Explain ', top_align = 'center' } },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+          winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
         },
 
         -- move popwin
         move = {
           left = {
-            mode = "n",
-            keys = "<left>",
+            mode = 'n',
+            keys = '<left>',
             distance = 5,
           },
           right = {
-            mode = "n",
-            keys = "<right>",
+            mode = 'n',
+            keys = '<right>',
             distance = 5,
           },
           up = {
-            mode = "n",
-            keys = "<up>",
+            mode = 'n',
+            keys = '<up>',
             distance = 2,
           },
           down = {
-            mode = "n",
-            keys = "<down>",
+            mode = 'n',
+            keys = '<down>',
             distance = 2,
           },
         },
       },
 
-      -- prompt = [[
-      --   你是一个高效、精准的问答助手。
-      --
-      --   你的核心任务是：
-      --     - 针对提问，只提供最核心的事实或结论。
-      --
-      --   你必须：
-      --     1. 严格避免任何形式的扩展、解释、背景或举例。
-      --     2. 将答案限制为一句话、一个短语或几个关键词。
-      --     3. 保持中立和直接的语气。
-      --     4. **只返回核心答案**。不要包含任何介绍、附注或无关信息。
-      --   ]],
+      prompt = [[
+        你是一个高效、精准的问答助手。
 
+        你的核心任务是：
+          - 针对提问，只提供最核心的事实或结论。
+
+        你必须：
+          1. 保持中立和直接的语气。
+          2. **只返回核心答案**。不要包含任何介绍、附注或无关信息。
+        ]],
 
       -- [核心] 保留您原来的 Session 关闭快捷键
       keys = {
-        ['Session:Close']   = { mode = 'n', key = { '<esc>', 'Q', 'q' } },
-        ["Session:History"] = { mode = "n", key = {} },
+        ['Session:Close'] = { mode = 'n', key = { '<esc>', 'Q', 'q' } },
+        ['Session:History'] = { mode = 'n', key = {} },
       },
 
       -- [核心] 传入我们从 'lua/LLM/init.lua' 加载的工具
@@ -147,12 +158,12 @@ return {
       '<cmd>LLMSessionToggle<cr>',
       desc = 'AI 会话切换',
     },
-    -- {
-    --   '<leader>ac',
-    --   mode = 'v',
-    --   '<cmd>LLMAppHandler AttachAndChat<cr>',
-    --   desc = 'AI 会话切换',
-    -- },
+    {
+      '<leader>ac',
+      mode = 'v',
+      '<cmd>LLMAppHandler AttachAndChat<cr>',
+      desc = 'AI 会话切换',
+    },
     {
       '<leader>aa',
       mode = { 'n' },
@@ -199,10 +210,10 @@ return {
       '<leader>ah', -- (或者您想要的任何快捷键)
       mode = 'n',
       function()
-        local session = require("llm.session")
-        local state = require("llm.state")
-        local conf = require("llm.config")
-        local api = require("llm.common.api")
+        local session = require('llm.session')
+        local state = require('llm.state')
+        local conf = require('llm.config')
+        local api = require('llm.common.api')
 
         -- 1. 检查会话是否需要创建或显示
         if conf.session.status == -1 then
@@ -223,7 +234,7 @@ return {
         -- 2. 此时窗口已确保有效，再调用历史记录
         api.HistoryPreview()
       end,
-      desc = 'AI 查看历史'
+      desc = 'AI 查看历史',
     },
   },
 }

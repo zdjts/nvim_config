@@ -12,7 +12,7 @@ return {
 
     -- 动态加载所有格式化器配置
     -- 这会自动加载 lua/code/formatters/ 目录下的所有 .lua 文件
-    local formatters_path = 'code.formatters.'
+    local formatters_path = 'config.formatters.'
     local formatters_by_ft = {}
     local formatters = {}
 
