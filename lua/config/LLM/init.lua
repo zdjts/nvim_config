@@ -8,14 +8,14 @@
 --
 
 return {
-  -- 【路径已修正】
-  OptimCompare = require('config.LLM.optim_compare'),
-  CommitMsg = require('config.LLM.commit_msg'),
-  DocString = require('config.LLM.doc_string'),
-  BashRunner = require('config.LLM.bash_runner'),
-  Completion = require('config.LLM.completion'),
-  Translate = require('config.LLM.translate'),
-  TranslateSelected = require('config.LLM.translateSelected'),
-  ScratchChat = require('config.LLM.ScratchChat'),
-  AttachAndChat = require('config.LLM.AttachAndChat')
+	-- 【路径已修正】
+	OptimCompare = require("config.LLM.optim_compare"),
+	CommitMsg = require("config.LLM.commit_msg"),
+	DocString = require("config.LLM.doc_string"),
+	BashRunner = require("config.LLM.bash_runner"),
+	Completion = require("config.LLM.completion"),
+	Translate = require("config.LLM.translate"),
+	TranslateSelected = require("config.LLM.translateSelected"),
+	ScratchChat = require("config.LLM.ScratchChat"),
+	AttachAndChat = require("config.LLM.AttachAndChat"),
 }

@@ -6,19 +6,19 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'markdown', 'text', 'gitcommit', 'gitrebase' }, -- 对这些文件类型禁用拼写检查
-  callback = function()
-    vim.opt.spell = false
-  end,
-  desc = 'Disable spellcheck for specific filetypes',
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "text", "gitcommit", "gitrebase" }, -- 对这些文件类型禁用拼写检查
+	callback = function()
+		vim.opt.spell = false
+	end,
+	desc = "Disable spellcheck for specific filetypes",
 })
 
 -- Force .h files to be treated as C++
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '*.h',
-  callback = function()
-    vim.bo.filetype = 'cpp'
-  end,
-  desc = 'Set .h filetype to cpp for clangd',
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	pattern = "*.h",
+	callback = function()
+		vim.bo.filetype = "cpp"
+	end,
+	desc = "Set .h filetype to cpp for clangd",
 })
