@@ -1,6 +1,7 @@
 -- lua/code/overseer.lua
 return {
     'stevearc/overseer.nvim',
+    dependencies = { 'folke/snacks.nvim' },
     cmd = {
         'OverseerRun',
         'OverseerToggle',

@@ -1,8 +1,8 @@
-local tools = require("llm.tools")
+local tools = require('llm.tools')
 
 return {
-	handler = tools.attach_to_chat_handler,
-	prompt = [[
+    handler = tools.attach_to_chat_handler,
+    prompt = [[
   你是一个高效、精准的问答助手。
 
   你的核心任务是：
@@ -15,5 +15,5 @@ return {
     4. **只返回核心答案**。不要包含任何介绍、附注或无关信息。
   ]],
 
-	opts = {},
+    opts = {},
 }
