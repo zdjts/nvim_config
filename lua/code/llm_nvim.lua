@@ -25,6 +25,7 @@ return {
             url = 'https://api.siliconflow.cn/v1/chat/completions',
             model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
             api_type = 'openai',
+            provider = 'openai',
             max_tokens = 4096,
             temperature = 0.3,
             top_p = 0.7,

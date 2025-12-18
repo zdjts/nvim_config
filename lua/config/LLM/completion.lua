@@ -1,102 +1,59 @@
--- lua/code/LLM/completion.lua
---
--- 'Completion' (代码补全) 工具的配置
---
--- 注意：'completion_handler' 会独立管理其模型，
--- 这就是为什么我们在 'opts' 内部定义 'url' 和 'model'，
--- 而不是在 'backends.lua' 中。
---
-
+-- lua/config/LLM/completion.lua
 local tools = require('llm.tools')
 
 return {
     handler = tools.completion_handler,
     opts = {
-        -------------------------------------------------
-        ---                 ollama
-        -------------------------------------------------
-        -- url = 'http://localhost:11434/v1/completions',
-        -- model = 'qwen2.5-coder:1.5b',
-        -- api_type = 'ollama',
-        ------------------- end ollama ------------------
-
-        -------------------------------------------------
-        ---                 deepseek
-        -------------------------------------------------
-        -- url = "https://api.deepseek.com/beta/completions",
-        -- model = "deepseek-chat",
-        -- api_type = "deepseek",
-        -- fetch_key = function()
-        --   return "your api key"
-        -- end,
-        ------------------ end deepseek -----------------
-        -------------------------------------------------
-        ---                 siliconflow
-        -------------------------------------------------
-        -- 这是您原来启用的配置
+        -- =================================================
+        -- 1. 接口配置
+        -- =================================================
+        -- 使用你刚才发现的 completions 接口
+        -- 注意：国内用户建议用 .cn 域名，速度更快，.com 可能会慢
         url = 'https://api.siliconflow.cn/v1/completions',
+
+        -- 模型名称 (保持 7B 以确保速度)
         model = 'Qwen/Qwen2.5-Coder-7B-Instruct',
+
         api_type = 'openai',
-        ------------------ end siliconflow -----------------
 
-        -------------------------------------------------
-        ---                 codeium
-        ---  dependency: "Exafunction/codeium.nvim"
-        -------------------------------------------------
-        -- api_type = "codeium",
-        ------------------ end codeium ------------------
+        -- =================================================
+        -- 2. 驯服 Instruct 模型 (关键步骤)
+        -- =================================================
+        request_body = {
+            -- 降低温度，让模型不要“发疯”写废话
+            temperature = 0.1,
+            top_p = 0.9,
 
-        n_completions = 3,
-        context_window = 512,
-        max_tokens = 256,
-
-        -- A mapping of filetype to true or false, to enable completion.
-        filetypes = { sh = false },
-
-        -- Whether to enable completion of not for filetypes not specifically listed above.
-        default_filetype_enabled = true,
-
-        auto_trigger = false,
-
-        -- just trigger by { "@", ".", "(", "[", ":", " " } for `style = "nvim-cmp"`
-        only_trigger_by_keywords = true,
-
-        style = 'virtual_text', -- nvim-cmp or blink.cmp
-
-        timeout = 10, -- max request time
-
-        -- only send the request every x milliseconds, use 0 to disable throttle.
-        throttle = 1000,
-        -- debounce the request in x milliseconds, set to 0 to disable debounce
-        debounce = 400,
-
-        --------------------------------
-        ---   just for virtual_text
-        --------------------------------
-        keymap = {
-            toggle = {
-                mode = 'n',
-                keys = '<leader>cp',
-                desc = '反转 LLM Lsp 状态',
-            },
-            virtual_text = {
-                accept = {
-                    mode = 'i',
-                    keys = '<A-a>',
-                },
-                next = {
-                    mode = 'i',
-                    keys = '<A-n>',
-                },
-                prev = {
-                    mode = 'i',
-                    keys = '<A-p>',
-                },
-                toggle = {
-                    mode = 'n',
-                    keys = '<leader>cp',
-                },
-            },
+            -- [绝对关键] 停止符
+            -- 因为我们用的是 Instruct 模型，它很想和你聊天。
+            -- 我们必须设置这些停止符，一旦它想输出 "```" (Markdown结尾)
+            -- 或者 "<|im_end|>" (对话结束)，就强制截断它。
+            stop = { '<|im_end|>', '```', '\n\nclass', '\n\nvoid' },
         },
+
+        -- =================================================
+        -- 3. 触发与性能
+        -- =================================================
+        -- 开启全自动触发
+        auto_trigger = true,
+        only_trigger_by_keywords = false,
+
+        -- 防抖设置：打字停顿 300ms 后才请求，避免请求太频繁导致卡顿
+        debounce = 300,
+        throttle = 500,
+        timeout = 10,
+
+        -- =================================================
+        -- 4. 生成限制
+        -- =================================================
+        n_completions = 1,
+        context_window = 1024,
+        -- 限制生成长度，防止它写完代码后开始写注释
+        max_tokens = 128,
+
+        -- =================================================
+        -- 5. UI 样式
+        -- =================================================
+        style = 'virtual_text',
     },
 }
