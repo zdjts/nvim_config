@@ -110,6 +110,16 @@ table.insert(keymaps, {
 
     -- [可选] 如果你想快速重启上一次的任务
     { '<localleader>re', '<cmd>OverseerRestartLast<cr>', desc = 'Restart Last Task' },
+
+    {
+        '<leader>al',
+        function()
+            local s = require('llm.state').completion
+            s.enable = not s.enable
+            vim.g.LLM_COMPLETION_STATUS = not vim.g.LLM_COMPLETION_STATUS
+        end,
+        desc = '切换补全状态',
+    },
 })
 
 wk.add(keymaps)

@@ -70,7 +70,7 @@ return {
                 sources = cmp.config.sources({
                     { name = 'nvim_lsp' },
                     { name = 'llm', group_index = 1 },
-                    { name = 'luasnip' },
+                    -- { name = 'luasnip' },
                     { name = 'buffer' },
                     { name = 'path' },
                     { name = 'nvim_lua' },

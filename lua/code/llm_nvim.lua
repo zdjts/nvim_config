@@ -9,7 +9,7 @@ return {
     -- 关键：config 函数
     config = function()
         -- 1. 保留您原来的设置：
-        require('llm.state').completion.enable = false
+        require('llm.state').completion.enable = vim.g.LLM_COMPLETION_STATUS
 
         -- 2. 加载您在 'lua/LLM/init.lua' 中定义的所有工具
         --    (这会返回一个 app_handler 表)
