@@ -19,6 +19,7 @@ vim.o.expandtab = true -- 按 Tab 键时插入空格，而不是 Tab 字符
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.syntax = 'off'
+vim.opt.winborder = 'rounded'
 
 if vim.g.LLM_COMPLETION_STATUS == nil then
     print('set llm_status')

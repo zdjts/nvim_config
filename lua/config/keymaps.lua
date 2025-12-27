@@ -21,28 +21,28 @@ local keymaps = {
     {
         ']e',
         function()
-            vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
         end,
         desc = 'Next Error',
     },
     {
         '[e',
         function()
-            vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
         end,
         desc = 'Prev Error',
     },
     {
         ']w',
         function()
-            vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
+            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })
         end,
         desc = 'Next Warning',
     },
     {
         '[w',
         function()
-            vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
+            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })
         end,
         desc = 'Prev Warning',
     },

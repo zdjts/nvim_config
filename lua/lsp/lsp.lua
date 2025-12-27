@@ -52,22 +52,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
             end
         end, 'LSP: Toggle diagnostics display')
 
-        -- 代码折叠 (如果 LSP 支持) - 已修正语法错误
-        if client and client.supports_method('textDocument/foldingRange') then
+        -- 1. 代码折叠 (使用冒号调用 :supports_method)
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange) then
             vim.wo.foldmethod = 'expr'
             vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
             vim.wo.foldlevel = 99
         end
 
-        -- Inlay Hints (如果 LSP 支持)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        -- 2. Inlay Hints (修正 enable 参数签名)
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map('n', '<leader>th', function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
+                -- 0.12 推荐写法：is_enabled 现在接收 filter 表
+                local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+                -- enable 第一个参数是 boolean，第二个参数是 filter 表
+                vim.lsp.inlay_hint.enable(not is_enabled, { bufnr = bufnr })
             end, 'LSP: Toggle Inlay Hints')
         end
 
-        -- 光标下单词高亮 (如果 LSP 支持)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        -- 3. 光标下单词高亮 (使用冒号调用 :supports_method)
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('my-lsp-highlight', { clear = true })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                 buffer = bufnr,
@@ -109,5 +112,6 @@ vim.diagnostic.config({
 vim.api.nvim_create_user_command('LspInfo', ':checkhealth lsp', { desc = 'Alias to `:checkhealth lsp`' })
 
 vim.api.nvim_create_user_command('LspLog', function()
-    vim.cmd(string.format('tabnew %s', vim.lsp.get_log_path()))
+    local log_path = vim.lsp.log.get_filename()
+    vim.cmd('tabnew ' .. log_path)
 end, { desc = 'Opens the Nvim LSP client log.' })
