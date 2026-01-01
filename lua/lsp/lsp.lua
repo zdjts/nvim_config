@@ -14,6 +14,7 @@ local servers = {
     'solidity_ls',
     'cssls',
     'rust-analyzer',
+    'tinymist',
 }
 for _, server in ipairs(servers) do
     vim.lsp.enable(server)

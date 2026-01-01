@@ -17,7 +17,7 @@ return {
         local formatters = {}
 
         -- 注意：这是一个简化的加载器，适用于您的结构
-        -- 您需要手动创建 lua/code/formatters 目录
+        -- 您需要手动创建 lua/config/formatters/formatters 目录
         local files = {
             'lua',
             'python',
@@ -27,6 +27,8 @@ return {
             'markdown',
             'tex',
             'javascript',
+            'typst',
+            'rust',
         }
         for _, file in ipairs(files) do
             local ok, config = pcall(require, formatters_path .. file)
