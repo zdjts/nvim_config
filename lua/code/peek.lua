@@ -6,9 +6,9 @@ return {
     config = function()
         require('peek').setup({
             app = {
-                'google-chrome-stable',
+                'chromium',
                 -- "--app=http://localhost:9000/?theme=dark",
-                '--incognito',
+                -- '--incognito',
                 '--no-first-run',
                 '--disable-features=Translate',
             },

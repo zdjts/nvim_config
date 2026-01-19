@@ -33,10 +33,23 @@ local function typst_setup()
         },
     })
 end
+local function html_setup()
+    wk.add({
+        {
+            '<localleader>rr',
+            function()
+                vim.cmd('LivePreview start')
+            end,
+            desc = 'Preview: HTML',
+            buffer = true,
+        },
+    })
+end
 
 -- 注册自动命令
 vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', callback = md_setup, group = run_key_group })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'typst', callback = typst_setup, group = run_key_group })
+vim.api.nvim_create_autocmd('FileType', { pattern = 'html', callback = html_setup, group = run_key_group })
 
 -- =============================================================================
 -- 2. 全局快捷键定义
