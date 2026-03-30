@@ -12,7 +12,7 @@ return {
         url = 'https://api.siliconflow.cn/v1/completions',
 
         -- 模型名称 (保持 7B 以确保速度)
-        model = 'Qwen/Qwen2.5-Coder-7B-Instruct',
+        model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
 
         api_type = 'openai',
 

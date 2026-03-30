@@ -131,6 +131,8 @@ local keymaps = {
 	{ "<leader>la", vim.lsp.buf.code_action, desc = "LSP: Code Action" },
 	{ "<leader>ln", vim.lsp.buf.rename, desc = "LSP: Rename" },
 	{ "<leader>ld", vim.diagnostic.open_float, desc = "LSP: Line Diagnostics" },
+	{ "<leader>ls", vim.lsp.buf.document_symbol, desc = "LSP: Document Symbols" },
+	{ "<C-.>", vim.lsp.buf.code_action, desc = "LSP: Quick Fix" },
 
 	-- 功能插件
 	{
