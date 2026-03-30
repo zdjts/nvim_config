@@ -1,85 +1,138 @@
-# Neovim Keymap Organization
+# Neovim 快捷键配置指南 (最新版)
 
-This document outlines the reorganized keymap structure for your Neovim configuration. The goal is to create a logical, easy-to-remember, and discoverable set of keybindings using `which-key.nvim`.
+本文档记录了当前配置中所有激活的快捷键。配置遵循 **Mnemonics (助记符)** 原则，大部分自定义操作通过 `<leader>` (空格) 或 `<localleader>` (逗号) 触发。
 
-## Guiding Principles
+## 1. 核心编辑器快捷键
 
-1.  **Centralization**: All custom keymaps are defined in a single file: `lua/config/keymaps.lua`.
-2.  **Mnemonics**: Keybindings are grouped under the `<leader>` key (`<Space>`) using mnemonic prefixes (e.g., `f` for **f**ile, `l` for **L**SP).
-3.  **Discoverability**: `which-key.nvim` provides an interactive popup menu, helping you learn and explore your keybindings without leaving the editor.
+### 窗口管理
 
-## Keymap Structure
+| 快捷键  | 动作         | 源文件 |
+| :------ | :----------- | :----- |
+| `<C-h>` | 移至左侧窗口 |        |
+| `<C-j>` | 移至下方窗口 |        |
+| `<C-k>` | 移至上方窗口 |        |
+| `<C-l>` | 移至右侧窗口 |        |
 
-All keybindings are registered in `lua/config/keymaps.lua` using `which-key.register()`.
+### Buffer (标签页) 管理
 
-### Leader Key Mappings (`<Space>`)
-
-| Prefix      | Group          | Description                               |
-| ----------- | -------------- | ----------------------------------------- |
-| `<leader>f` | **F**ind/Files | File management, searching with Telescope |
-| `<leader>b` | **B**uffer     | Buffer navigation and management          |
-| `<leader>l` | **L**SP        | Language Server Protocol features         |
-| `<leader>t` | **T**oggle     | Toggling UI elements and settings         |
-| `<leader>w` | **W**indow     | Window navigation                         |
-| `<leader>d` | **D**iagnostic | Navigating diagnostics (errors, warnings) |
+| 快捷键       | 动作                     | 源文件 |
+| :----------- | :----------------------- | :----- |
+| `[b`         | 上一个 Buffer            |        |
+| `]b`         | 下一个 Buffer            |        |
+| `<leader>bc` | 删除当前 Buffer (Snacks) |        |
 
 ---
 
-### Detailed Mappings
+## 2. LSP 与代码功能 (`<leader>l` / `g`)
 
-#### `<leader>f` - Find / Files
+### 基础跳转与悬浮
 
-| Key           | Action                      | Command (`<cmd>...`)         |
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>ff` | Find Files                  | `Telescope find_files`       |
-| `<leader>fg` | Live Grep (Search Text)     | `Telescope live_grep`        |
-| `<leader>fb` | Find Buffers                | `Telescope buffers`          |
-| `<leader>fh` | Search Help Tags            | `Telescope help_tags`        |
-| `<leader>fo` | Open File Explorer (Oil)    | `Oil`                        |
+| 快捷键 | 动作         | 源文件 |
+| :----- | :----------- | :----- |
+| `gd`   | 跳转到定义   |        |
+| `gr`   | 查看引用     |        |
+| `gD`   | 跳转到声明   |        |
+| `K`    | 显示悬浮文档 |        |
 
-#### `<leader>b` - Buffer
+### 重构与诊断
 
-| Key           | Action                      | Command (`<cmd>...`)         |
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>bn` | Next Buffer                 | `BufferLineCycleNext`        |
-| `<leader>bp` | Previous Buffer             | `BufferLineCyclePrev`        |
-| `<leader>bd` | Close Buffer                | `bdelete`                    |
-
-#### `<leader>l` - LSP
-
-| Key           | Action                      | Function (`vim.lsp.buf...`)  |
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>la` | Code Action                 | `code_action`                |
-| `<leader>lr` | Rename                      | `rename`                     |
-| `<leader>ld` | Line Diagnostics            | `vim.diagnostic.open_float`  |
-| `<leader>lt` | Toggle Inlay Hints          | (custom function)            |
-
-#### `<leader>t` - Toggle
-
-| Key           | Action                      | Command (`<cmd>...`)         |
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>tt` | Toggle Terminal             | `ToggleTerm`                 |
-| `<leader>tn` | Toggle Noice                | `Noice`                      |
-| `<leader>td` | Toggle Diagnostics          | (custom function)            |
-
-#### `<leader>w` - Window
-
-| Key           | Action                      | Command                      |
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>wh` | Navigate Left               | `<C-w>h`                     |
-| `<leader>wj` | Navigate Down               | `<C-w>j`                     |
-| `<leader>wk` | Navigate Up                 | `<C-w>k`                     |
-| `<leader>wl` | Navigate Right              | `<C-w>l`                     |
-
-#### `<leader>d` - Diagnostic
-
-| Key           | Action                      | Function (`vim.diagnostic...`)|
-| ------------- | --------------------------- | ---------------------------- |
-| `<leader>de` | Next Error                  | `goto_next({severity=ERROR})`|
-| `<leader>dE` | Previous Error              | `goto_prev({severity=ERROR})`|
-| `<leader>dw` | Next Warning                | `goto_next({severity=WARN})` |
-| `<leader>dW` | Previous Warning            | `goto_prev({severity=WARN})` |
+| 快捷键       | 动作                     | 源文件 |
+| :----------- | :----------------------- | :----- |
+| `<leader>la` | 代码操作 (Code Action)   |        |
+| `<leader>ln` | 重命名 (Rename)          |        |
+| `<leader>ld` | 显示当前行诊断详情       |        |
+| `<leader>fc` | 格式化当前文件 (Conform) |        |
+| `[d` / `]d`  | 上一个/下一个诊断        |        |
+| `[e` / `]e`  | 上一个/下一个错误        |        |
+| `[w` / `]w`  | 上一个/下一个警告        |        |
 
 ---
 
-This new structure should make your keybindings much more predictable and easier to use.
+## 3. LLM (人工智能) 功能 (`<leader>a`)
+
+### 交互会话
+
+| 快捷键       | 动作                                                  | 源文件 |
+| :----------- | :---------------------------------------------------- | :----- |
+| `<leader>ac` | 开启 AI 会话 (普通模式) / 附带选中文本聊天 (可视模式) |        |
+| `<leader>aa` | 临时 AI 聊天窗口 (ScratchChat)                        |        |
+| `<leader>ah` | 查看 AI 历史记录                                      |        |
+
+### 辅助工具
+
+| 快捷键       | 动作                                      | 源文件 |
+| :----------- | :---------------------------------------- | :----- |
+| `<leader>at` | AI 翻译 (支持中英互译)                    |        |
+| `<leader>an` | AI 代码优化器 (对比差异)                  |        |
+| `<leader>ag` | 生成 Git 提交信息 (CommitMsg)             |        |
+| `<leader>ad` | 生成文档字符串 (DocString)                |        |
+| `<leader>ar` | AI Bash 脚本运行器                        |        |
+| `<leader>al` | 切换 LLM 代码补全开启/关闭状态            |        |
+| `Alt + a`    | **(插入模式)** 采纳当前的行内代码补全建议 |        |
+
+---
+
+## 4. 文件查找与 UI 开关 (`<leader>f` / `<leader>t`)
+
+### 查找 (Snacks Picker)
+
+| 快捷键       | 动作                       | 源文件 |
+| :----------- | :------------------------- | :----- |
+| `<leader>ff` | 智能查找文件               |        |
+| `<leader>fw` | 全局搜索文本 (Grep)        |        |
+| `<leader>fh` | 查找帮助文档               |        |
+| `<leader>e`  | 打开 Oil 文件浏览器 (浮窗) |        |
+
+### 界面开关
+
+| 快捷键                 | 动作                        | 源文件 |
+| :--------------------- | :-------------------------- | :----- |
+| `<C-/>` / `<leader>ft` | 打开/关闭终端 (ToggleTerm)  |        |
+| `<leader>td`           | 切换 LSP 诊断显示           |        |
+| `<leader>th`           | 切换 Inlay Hints (内联提示) |        |
+| `<leader>uz`           | 禅模式 (Zen Mode)           |        |
+
+---
+
+## 5. 运行与任务控制 (`<localleader>r` 即 `,r`)
+
+该组快捷键根据**文件类型**动态变化：
+
+### 通用 (Overseer) - 适用于 C++, Shell, Rust 等
+
+| 快捷键 | 动作             | 源文件 |
+| :----- | :--------------- | :----- |
+| `,rr`  | 运行任务列表     |        |
+| `,rl`  | 切换任务列表窗口 |        |
+| `,re`  | 重启上一个任务   |        |
+
+### Python (Iron.nvim REPL)
+
+| 快捷键 | 动作                              | 源文件 |
+| :----- | :-------------------------------- | :----- |
+| `,rr`  | 打开并定位到 REPL 窗口            |        |
+| `,rc`  | 发送当前行或代码块 (# %%) 到 REPL |        |
+| `,ra`  | 运行整个文件                      |        |
+
+### 实时预览
+
+| 快捷键 | 动作                                       | 源文件 |
+| :----- | :----------------------------------------- | :----- |
+| `,rr`  | Markdown 预览 / Typst 预览 / HTML 实时预览 |        |
+
+---
+
+## 6. Git 操作 (`<leader>g`)
+
+| 快捷键       | 动作                  | 源文件 |
+| :----------- | :-------------------- | :----- |
+| `<leader>go` | 打开 LazyGit          |        |
+| `<leader>gl` | 查看 Git 日志         |        |
+| `<leader>gf` | 查看当前文件 Git 日志 |        |
+
+---
+
+## 7. 其他功能
+
+- **快速跳转**: `s` 触发 Flash 跳转，`S` 触发 Flash Treesitter 选择。
+- **终端模式**: 在终端内按 `<Esc>` 可退出输入模式回到普通模式。
