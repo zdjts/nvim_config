@@ -1,0 +1,60 @@
+-- /home/zeng/.config/nvim/lua/code/completion.lua
+
+return {
+    {
+        'saghen/blink.cmp',
+        version = '*',
+        dependencies = {
+            'rafamadriz/friendly-snippets',
+            { 'saghen/blink.compat', opts = { im_select = false } },
+            'Kurama622/llm.nvim', -- 你的本地 LLM 插件
+        },
+        event = 'InsertEnter',
+
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            -- 1. 键位映射：回归极简
+            keymap = {
+                preset = 'enter', -- 回车确认，Tab/S-Tab 选择
+                ['<C-Space>'] = { 'show', 'hide', 'fallback' },
+                -- 如果你怀念原来的 Tab 跳转 Snippet 逻辑：
+                ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+                ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+            },
+
+            -- 2. 彻底抛弃 LuaSnip，使用 blink 原生引擎
+            snippets = { preset = 'default' },
+
+            -- 3. 补全源配置 (Sources)
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer', 'llm' },
+                providers = {
+                    llm = {
+                        name = 'llm',
+                        module = 'blink.compat.source',
+                        score_offset = 100,
+                        async = true,
+                        timeout_ms = 5000,
+                    },
+                },
+            },
+
+            completion = {
+                list = { selection = { preselect = true, auto_insert = true } },
+                menu = {
+                    border = 'rounded',
+                    draw = { columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } } },
+                },
+                documentation = { window = { border = 'rounded' }, auto_show = true },
+                -- 类似 VSCode 的虚影补全，非常有破坏力的体验增强
+                ghost_text = { enabled = false },
+            },
+
+            -- 5. 修正图标
+            appearance = {
+                kind_icons = { LLM = ' ' },
+            },
+        },
+    },
+}

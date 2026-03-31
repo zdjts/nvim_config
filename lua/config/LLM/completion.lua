@@ -13,6 +13,7 @@ return {
 
         -- 模型名称 (保持 7B 以确保速度)
         model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
+        -- model = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B',
 
         api_type = 'openai',
 
