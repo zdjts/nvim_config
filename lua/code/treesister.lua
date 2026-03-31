@@ -25,6 +25,7 @@ return {
                 'vim',
                 'vimdoc',
                 'verilog',
+                'rust',
             },
             auto_install = false,
             highlight = {

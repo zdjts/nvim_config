@@ -6,8 +6,9 @@ return {
         version = '*',
         dependencies = {
             'rafamadriz/friendly-snippets',
+            'Kaiser-Yang/blink-cmp-avante',
             { 'saghen/blink.compat', opts = { im_select = false } },
-            'Kurama622/llm.nvim', -- 你的本地 LLM 插件
+            -- 'Kurama622/llm.nvim', -- 你的本地 LLM 插件
         },
         event = 'InsertEnter',
 
@@ -28,14 +29,12 @@ return {
 
             -- 3. 补全源配置 (Sources)
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer', 'llm' },
+                default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
                 providers = {
-                    llm = {
-                        name = 'llm',
-                        module = 'blink.compat.source',
-                        score_offset = 100,
-                        async = true,
-                        timeout_ms = 5000,
+                    avante = {
+                        module = 'blink-cmp-avante',
+                        name = 'Avante',
+                        opts = {},
                     },
                 },
             },

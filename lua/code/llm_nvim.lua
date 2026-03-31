@@ -154,30 +154,30 @@ return {
 
     -- 4. 您原来的所有工具快捷键保持不变
     keys = {
-        {
-            '<leader>ac',
-            mode = 'n',
-            '<cmd>LLMSessionToggle<cr>',
-            desc = 'AI 会话切换',
-        },
-        {
-            '<leader>ac',
-            mode = 'v',
-            '<cmd>LLMAppHandler AttachAndChat<cr>',
-            desc = 'AI 会话切换',
-        },
-        {
-            '<leader>aa',
-            mode = { 'n' },
-            '<cmd>LLMAppHandler ScratchChat<cr>',
-            desc = 'AI 临时会话',
-        },
-        {
-            '<leader>at',
-            mode = { 'n' },
-            '<cmd>LLMAppHandler Translate<cr>',
-            desc = 'AI 翻译器',
-        },
+        -- {
+        --     '<leader>ac',
+        --     mode = 'n',
+        --     '<cmd>LLMSessionToggle<cr>',
+        --     desc = 'AI 会话切换',
+        -- },
+        -- {
+        --     '<leader>ac',
+        --     mode = 'v',
+        --     '<cmd>LLMAppHandler AttachAndChat<cr>',
+        --     desc = 'AI 会话切换',
+        -- },
+        -- {
+        --     '<leader>aa',
+        --     mode = { 'n' },
+        --     '<cmd>LLMAppHandler ScratchChat<cr>',
+        --     desc = 'AI 临时会话',
+        -- },
+        -- {
+        --     '<leader>at',
+        --     mode = { 'n' },
+        --     '<cmd>LLMAppHandler Translate<cr>',
+        --     desc = 'AI 翻译器',
+        -- },
         {
             '<leader>at',
             mode = { 'v' },
@@ -202,12 +202,12 @@ return {
             '<cmd>LLMAppHandler DocString<cr>',
             desc = '生成文档字符串',
         },
-        {
-            '<leader>ar',
-            mode = 'n',
-            '<cmd>LLMAppHandler BashRunner<cr>',
-            desc = 'Bash 运行器',
-        },
+        -- {
+        --     '<leader>ar',
+        --     mode = 'n',
+        --     '<cmd>LLMAppHandler BashRunner<cr>',
+        --     desc = 'Bash 运行器',
+        -- },
         {
             '<leader>ah', -- (或者您想要的任何快捷键)
             mode = 'n',
