@@ -144,7 +144,7 @@ return {
             keys = {
                 ['Session:Close'] = { mode = 'n', key = { '<esc>', 'Q', 'q' } },
                 ['Session:History'] = { mode = 'n', key = {} },
-                ['Completion:Accept'] = { mode = 'i', key = '<A-a>' },
+                -- ['Completion:Accept'] = { mode = 'i', key = '<A-a>' },
             },
 
             -- [核心] 传入我们从 'lua/LLM/init.lua' 加载的工具
