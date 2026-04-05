@@ -36,6 +36,15 @@ return {
                         name = 'Avante',
                         opts = {},
                     },
+                    snippets = {
+                        name = 'Snippets',
+                        module = 'blink.cmp.sources.snippets',
+                        -- score_offset = 100, -- 给予极高权重，确保排在第一位
+                        opts = {
+                            -- 这里的路径必须指向你刚才创建 JSON 的文件夹
+                            search_paths = { vim.fn.expand('~/.config/nvim/lua/snippets') },
+                        },
+                    },
                 },
             },
 

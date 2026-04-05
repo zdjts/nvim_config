@@ -1,0 +1,16 @@
+{
+  "let binding": {
+    "prefix": "l",
+    "body": ["let ${1} = ${2};", "$0"],
+    "description": "不可变绑定，第二次 Tab 跳到下一行"
+  },
+  "let mut binding": {
+    "prefix": "lm",
+    "body": ["let mut ${1} = ${2};", "$0"],
+    "description": "可变绑定，第二次 Tab 跳到下一行"
+  },
+  "println": {
+    "prefix": "pln",
+    "body": ["println!(\"${1}\");", "$0"]
+  }
+}
