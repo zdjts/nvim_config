@@ -154,42 +154,12 @@ return {
 
     -- 4. 您原来的所有工具快捷键保持不变
     keys = {
-        -- {
-        --     '<leader>ac',
-        --     mode = 'n',
-        --     '<cmd>LLMSessionToggle<cr>',
-        --     desc = 'AI 会话切换',
-        -- },
-        -- {
-        --     '<leader>ac',
-        --     mode = 'v',
-        --     '<cmd>LLMAppHandler AttachAndChat<cr>',
-        --     desc = 'AI 会话切换',
-        -- },
-        -- {
-        --     '<leader>aa',
-        --     mode = { 'n' },
-        --     '<cmd>LLMAppHandler ScratchChat<cr>',
-        --     desc = 'AI 临时会话',
-        -- },
-        -- {
-        --     '<leader>at',
-        --     mode = { 'n' },
-        --     '<cmd>LLMAppHandler Translate<cr>',
-        --     desc = 'AI 翻译器',
-        -- },
         {
             '<leader>at',
             mode = { 'v' },
             '<cmd>LLMAppHandler TranslateSelected<cr>',
             desc = 'AI 翻译器',
         },
-        -- {
-        --     '<leader>an',
-        --     mode = { 'n', 'v' },
-        --     '<cmd>LLMAppHandler OptimCompare<cr>',
-        --     desc = 'AI 优化器',
-        -- },
         {
             '<leader>ag',
             mode = 'n',
@@ -202,41 +172,5 @@ return {
             '<cmd>LLMAppHandler DocString<cr>',
             desc = '生成文档字符串',
         },
-        -- {
-        --     '<leader>ar',
-        --     mode = 'n',
-        --     '<cmd>LLMAppHandler BashRunner<cr>',
-        --     desc = 'Bash 运行器',
-        -- },
-        -- {
-        --     '<leader>ah', -- (或者您想要的任何快捷键)
-        --     mode = 'n',
-        --     function()
-        --         local session = require('llm.session')
-        --         local state = require('llm.state')
-        --         local conf = require('llm.config')
-        --         local api = require('llm.common.api')
-        --
-        --         -- 1. 检查会话是否需要创建或显示
-        --         if conf.session.status == -1 then
-        --             -- 状态 -1: 从未打开过 -> 创建
-        --             session.NewSession()
-        --         elseif conf.session.status == 0 then
-        --             -- 状态 0: 已隐藏 -> 显示
-        --             session.NewSession() -- (NewSession 内部会调用 ToggleLLM, 从而显示它)
-        --         elseif conf.session.status == 1 then
-        --             -- 状态 1: 已显示。
-        --             -- (严格评估) 必须检查窗口是否被手动关闭
-        --             if not vim.api.nvim_win_is_valid(state.llm.popup.winid) then
-        --                 session.NewSession() -- 窗口无效, 触发重置 (status 变为 -1)
-        --                 session.NewSession() -- 再次调用以创建 (status == -1)
-        --             end
-        --         end
-        --
-        --         -- 2. 此时窗口已确保有效，再调用历史记录
-        --         api.HistoryPreview()
-        --     end,
-        --     desc = 'AI 查看历史',
-        -- },
     },
 }

@@ -3,7 +3,7 @@
 return {
     {
         'saghen/blink.cmp',
-        version = '*',
+        version = '~0.x',
         dependencies = {
             'rafamadriz/friendly-snippets',
             'Kaiser-Yang/blink-cmp-avante',

@@ -9,17 +9,16 @@ return {
         enable_cursor_planning_mode = false,
         enable_claude_text_editor_tool_mode = false,
         behaviour = {
-            auto_suggestions = false, -- 实验阶段
+            auto_suggestions = false,
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
             auto_apply_diff_after_generation = false,
             support_paste_from_clipboard = false,
-            minimize_diff = true, -- 是否在应用代码块时删除未更改的行
-            enable_token_counting = true, -- 是否启用令牌计数。默认为 true。
-            auto_add_current_file = true, -- 打开新聊天时是否自动添加当前文件。默认为 true。
-            enable_cursor_planning_mode = false, -- 是否启用 Cursor 规划模式。默认为 false。
-            enable_claude_text_editor_tool_mode = false, -- 是否启用 Claude 文本编辑器工具模式。
-            ---@type "popup" | "inline_buttons"
+            minimize_diff = true,
+            enable_token_counting = true,
+            auto_add_current_file = true,
+            enable_cursor_planning_mode = false, -- 只保留在 behaviour 里
+            enable_claude_text_editor_tool_mode = false,
             confirmation_ui_style = 'inline_buttons',
         },
         -- 以后增加供应商，只需按下面的结构往 providers 里加

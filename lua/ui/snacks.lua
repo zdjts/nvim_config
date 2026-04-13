@@ -91,7 +91,7 @@ return {
             statuscolumn = { enabled = true },
             words = { enabled = true },
             dim = { enabled = true },
-            zen = { enalbed = true },
+            zen = { enabled = true },
             lazygit = { enabled = true },
             image = {
                 enabled = true,

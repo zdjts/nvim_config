@@ -31,9 +31,7 @@ return {
                 },
                 cmp = true,
                 gitsigns = true,
-                telescope = true,
                 mason = true,
-                nvimtree = true,
             },
 
             -- ===================================================================
