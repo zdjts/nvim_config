@@ -124,14 +124,71 @@ local keymaps = {
     { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
 
     -- LSP 核心功能
-    { 'gd', vim.lsp.buf.definition, desc = 'LSP: Goto Definition' },
-    { 'gr', vim.lsp.buf.references, desc = 'LSP: Goto References' },
-    { 'gD', vim.lsp.buf.declaration, desc = 'LSP: Goto Declaration' },
-    { 'K', vim.lsp.buf.hover, desc = 'LSP: Hover Documentation' },
-    { '<leader>la', vim.lsp.buf.code_action, desc = 'LSP: Code Action' },
-    { '<leader>ln', vim.lsp.buf.rename, desc = 'LSP: Rename' },
-    { '<leader>ld', vim.diagnostic.open_float, desc = 'LSP: Line Diagnostics' },
-    { '<leader>ls', vim.lsp.buf.document_symbol, desc = 'LSP: Document Symbols' },
+    -- { 'gd', vim.lsp.buf.definition, desc = 'LSP: Goto Definition' },
+    -- { 'gr', vim.lsp.buf.references, desc = 'LSP: Goto References' },
+    -- { 'gD', vim.lsp.buf.declaration, desc = 'LSP: Goto Declaration' },
+    -- { 'K', vim.lsp.buf.hover, desc = 'LSP: Hover Documentation' },
+    -- { '<leader>la', vim.lsp.buf.code_action, desc = 'LSP: Code Action' },
+    -- { '<leader>ln', vim.lsp.buf.rename, desc = 'LSP: Rename' },
+    -- { '<leader>ld', vim.diagnostic.open_float, desc = 'LSP: Line Diagnostics' },
+
+    {
+        'gd',
+        function()
+            vim.lsp.buf.definition()
+        end,
+        desc = 'LSP: Goto Definition',
+    },
+    {
+        'gr',
+        function()
+            vim.lsp.buf.references()
+        end,
+        desc = 'LSP: Goto References',
+    },
+    {
+        'gD',
+        function()
+            vim.lsp.buf.declaration()
+        end,
+        desc = 'LSP: Goto Declaration',
+    },
+    {
+        'K',
+        function()
+            vim.lsp.buf.hover()
+        end,
+        desc = 'LSP: Hover Documentation',
+    },
+    {
+        '<leader>la',
+        function()
+            vim.lsp.buf.code_action()
+        end,
+        desc = 'LSP: Code Action',
+    },
+    {
+        '<leader>ln',
+        function()
+            vim.lsp.buf.rename()
+        end,
+        desc = 'LSP: Rename',
+    },
+    {
+        '<leader>ld',
+        function()
+            vim.diagnostic.open_float()
+        end,
+        desc = 'LSP: Line Diagnostics',
+    },
+
+    {
+        '<leader>ls',
+        function()
+            vim.lsp.buf.document_symbol()
+        end,
+        desc = 'LSP: Document Symbols',
+    },
     { '<C-.>', vim.lsp.buf.code_action, desc = 'LSP: Quick Fix' },
 
     -- 功能插件

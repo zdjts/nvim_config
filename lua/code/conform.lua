@@ -56,7 +56,7 @@ return {
             format_on_save = function(bufnr)
                 if _G.auto_format_on_save then
                     -- 如果不想格式化某些文件类型，可以在这里添加判断
-                    -- local buftype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+                    -- l buftype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
                     -- if buftype == "go" then return end
                     return { timeout_ms = 500, lsp_fallback = true }
                 end
