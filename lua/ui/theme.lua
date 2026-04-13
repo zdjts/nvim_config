@@ -40,32 +40,44 @@ return {
             -- ===================================================================
             custom_highlights = function(colors)
                 return {
-                    ['@namespace'] = { fg = colors.teal },
-                    ['@function'] = { fg = colors.blue, style = { 'bold' } },
-                    ['@function.call'] = { fg = colors.blue },
-                    ['@function.builtin'] = { fg = colors.peach, style = { 'italic' } },
-                    ['@method.call'] = { fg = colors.blue },
-                    ['@parameter'] = { fg = colors.maroon, style = { 'italic' } },
-                    ['@type'] = { fg = colors.yellow },
-                    ['@type.builtin'] = { fg = colors.teal, style = { 'italic' } },
-                    ['@constructor'] = { fg = colors.sapphire },
-                    ['@keyword'] = { fg = colors.mauve },
-                    ['@keyword.function'] = { fg = colors.mauve, style = { 'bold' } },
-                    ['@constant.builtin'] = { fg = colors.peach, style = { 'bold' } },
-
-                    -- [修改] 属性和成员变量改为 Yellow
-                    ['@property'] = { fg = colors.sky },
-                    ['@variable.member'] = { fg = colors.yellow },
-
-                    -- [修改] 操作符改为柔和的灰色，降低视觉干扰
-                    ['@operator'] = { fg = colors.overlay2 },
-                    ['@keyword.operator'] = { fg = colors.overlay2, style = { 'bold' } },
-
+                    -- ['@namespace'] = { fg = colors.teal },
+                    -- ['@function'] = { fg = colors.blue, style = { 'bold' } },
+                    -- ['@function.call'] = { fg = colors.blue },
+                    -- ['@function.builtin'] = { fg = colors.peach, style = { 'italic' } },
+                    -- ['@method.call'] = { fg = colors.blue },
+                    -- ['@parameter'] = { fg = colors.maroon, style = { 'italic' } },
+                    -- ['@type'] = { fg = colors.yellow },
+                    -- ['@type.builtin'] = { fg = colors.teal, style = { 'italic' } },
+                    -- ['@constructor'] = { fg = colors.sapphire },
+                    -- ['@keyword'] = { fg = colors.mauve },
+                    -- ['@keyword.function'] = { fg = colors.mauve, style = { 'bold' } },
+                    -- ['@constant.builtin'] = { fg = colors.peach, style = { 'bold' } },
+                    --
+                    -- -- [修改] 属性和成员变量改为 Yellow
+                    -- ['@property'] = { fg = colors.sky },
+                    -- ['@variable.member'] = { fg = colors.yellow },
+                    --
+                    -- -- [修改] 操作符改为柔和的灰色，降低视觉干扰
+                    -- ['@operator'] = { fg = colors.overlay2 },
+                    -- ['@keyword.operator'] = { fg = colors.overlay2, style = { 'bold' } },
+                    --
                     ['@punctuation.bracket'] = {
                         fg = colors.overlay2,
                         style = { 'bold' },
                     },
-                    ['@punctuation.delimiter'] = { fg = colors.overlay2 },
+                    -- ['@punctuation.delimiter'] = { fg = colors.overlay2 },
+                    --
+                    -- -- LSP 诊断高亮
+                    DiagnosticVirtualTextError = { fg = colors.red, italic = true },
+                    DiagnosticVirtualTextWarn = { fg = colors.yellow, italic = true },
+                    DiagnosticVirtualTextInfo = { fg = colors.blue, italic = true },
+                    DiagnosticVirtualTextHint = { fg = colors.teal, italic = true },
+                    --
+                    -- -- 诊断符号背景
+                    DiagnosticSignError = { fg = colors.red, bg = 'NONE' },
+                    DiagnosticSignWarn = { fg = colors.yellow, bg = 'NONE' },
+                    DiagnosticSignInfo = { fg = colors.blue, bg = 'NONE' },
+                    DiagnosticSignHint = { fg = colors.teal, bg = 'NONE' },
                 }
             end,
         })

@@ -92,8 +92,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- 4. 诊断全局 UI 配置
 -- ===================================================================
 vim.diagnostic.config({
-    virtual_text = { spacing = 4, prefix = '●' },
-    float = { severity_sort = true, border = 'rounded' }, -- 增加圆角边框更美观
+    virtual_text = {
+        prefix = '󰄨 ', -- 更清晰的前缀图标
+        spacing = 4, -- 间距
+        source = 'if_many', -- 仅在有多个来源时显示来源
+        severity = vim.diagnostic.severity.WARNING, -- ← 只显示 WARNING 以上的虚拟文本
+    },
+    float = {
+        severity_sort = true, -- 按严重程度排序
+        border = 'rounded',
+        source = true, -- 始终显示来源（知道来自哪个 LSP）
+        focusable = true, -- 可以聚焦浮窗
+        max_width = 80, -- 最大宽度（防止太长）
+        max_height = 20, -- 最大高度（防止太高）
+        header = '', -- 去掉标题行
+        prefix = '  ', -- 美观的前缀
+    },
     severity_sort = true,
     signs = {
         text = {
@@ -101,6 +115,16 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.WARN] = diagnostic_icons.WARN,
             [vim.diagnostic.severity.INFO] = diagnostic_icons.INFO,
             [vim.diagnostic.severity.HINT] = diagnostic_icons.HINT,
+        },
+        linehl = {
+            [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+            [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+            [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+            [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+            [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
         },
     },
 })

@@ -22,6 +22,6 @@ vim.o.syntax = 'off'
 vim.opt.winborder = 'rounded'
 
 if vim.g.LLM_COMPLETION_STATUS == nil then
-    print('set llm_status')
+    -- print('set llm_status')
     vim.g.LLM_COMPLETION_STATUS = true
 end

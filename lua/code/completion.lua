@@ -52,9 +52,18 @@ return {
                 list = { selection = { preselect = true, auto_insert = true } },
                 menu = {
                     border = 'rounded',
-                    draw = { columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } } },
+                    draw = {
+                        columns = {
+                            { 'label', 'label_description', gap = 1 },
+                            { 'kind_icon', 'kind' },
+                        },
+                        treesitter = { 'lsp' }, -- 为 LSP 结果启用 treesitter 高亮
+                    },
                 },
-                documentation = { window = { border = 'rounded' }, auto_show = true },
+                documentation = {
+                    window = { border = 'rounded', max_height = 15 },
+                    auto_show = true,
+                },
                 -- 类似 VSCode 的虚影补全，非常有破坏力的体验增强
                 ghost_text = { enabled = false },
             },
