@@ -18,6 +18,7 @@ return {
     -- 您可以根据需要添加或删除这些设置。
     settings = {
         ['rust-analyzer'] = {
+            cachePriming = { enable = true },
             -- 启用或禁用自动导入缺失的依赖项，非常实用。
             imports = {
                 granularity = 'module',
