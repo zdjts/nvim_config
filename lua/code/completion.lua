@@ -3,7 +3,9 @@
 return {
     {
         'saghen/blink.cmp',
-        version = '~0.x',
+        url = 'https://gh-proxy.org/https://github.com/Saghen/blink.cmp.git',
+        -- version = '~0.x',
+        build = 'cargo build --release',
         dependencies = {
             'rafamadriz/friendly-snippets',
             'Kaiser-Yang/blink-cmp-avante',
