@@ -20,29 +20,15 @@ return {
         -- 我们使用您原来的顶层 url, model, api_type
         -- 我们【不】使用 'backends' 或 'default_backend'
         --
+        local llm_cfg = require('config.LLM.backends')
         require('llm').setup({
-            -- [核心] 您原来的模型配置
-            url = 'https://api.siliconflow.cn/v1/chat/completions',
-            model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
+            url = llm_cfg.chat_url,
+            model = llm_cfg.model,
             api_type = 'openai',
             provider = 'openai',
             max_tokens = 4096,
             temperature = 0.3,
             top_p = 0.7,
-            models = {
-                {
-                    name = 'TinyLlama',
-                    model = 'tinyllama:latest',
-                    url = 'http://localhost:11434/api/chat',
-                    api_type = 'ollama',
-                },
-                {
-                    name = 'Gemma 3 (12B)',
-                    model = 'gemma3:12b',
-                    url = 'http://localhost:11434/api/chat',
-                    api_type = 'ollama',
-                },
-            },
 
             prefix = {
                 user = { text = '  ', hl = 'Title' },

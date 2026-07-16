@@ -1,17 +1,14 @@
 local tools = require('llm.tools')
+local llm_cfg = require('config.LLM.backends')
 
 return {
     handler = function(name, F, state, streaming, prompt, opts)
-        -- 1. 空值保护 (保留之前的修复)
         opts = opts or {}
 
-        -- 2. 【新增】强制指定后端配置 (防止读取全局失败)
-        -- 既然 completion 已经能用了，这里的配置要跟 completion 保持一致
         local start_opts = {
-            url = 'https://api.siliconflow.cn/v1/chat/completions',
-            model = 'Qwen/Qwen2.5-Coder-32B-Instruct',
+            url = llm_cfg.chat_url,
+            model = llm_cfg.model,
             api_type = 'openai',
-            -- 优化任务不需要流式传输太快，稍微慢点更稳
             max_tokens = 4096,
         }
 

@@ -18,22 +18,10 @@ return {
                     provider = 'openai_fim_compatible',
                     provider_options = {
                         openai_fim_compatible = {
-                            model = 'deepseek-chat',
-                            end_point = 'https://api.deepseek.com/beta/completions',
-                            api_key = 'DEEPSEEK_API_KEY',
+                            model = 'deepseek-v4-pro',
+                            end_point = 'http://127.0.0.1:4000',
+                            api_key = vim.env.LLM_KEY,
                             name = 'DeepSeek',
-                            optional = { max_tokens = 256, top_p = 0.9 },
-                        },
-                    },
-                },
-                siliconflow = {
-                    provider = 'openai_fim_compatible',
-                    provider_options = {
-                        openai_fim_compatible = {
-                            model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
-                            end_point = 'https://api.siliconflow.cn/v1/completions',
-                            api_key = 'LLM_KEY',
-                            name = 'SiliconFlow',
                             optional = { max_tokens = 256, top_p = 0.9 },
                         },
                     },

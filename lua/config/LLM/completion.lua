@@ -1,20 +1,11 @@
--- lua/config/LLM/completion.lua
 local tools = require('llm.tools')
+local llm_cfg = require('config.LLM.backends')
 
 return {
     handler = tools.completion_handler,
     opts = {
-        -- =================================================
-        -- 1. 接口配置
-        -- =================================================
-        -- 使用你刚才发现的 completions 接口
-        -- 注意：国内用户建议用 .cn 域名，速度更快，.com 可能会慢
-        url = 'https://api.siliconflow.cn/v1/completions',
-
-        -- 模型名称 (保持 7B 以确保速度)
-        model = 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
-        -- model = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B',
-
+        url = llm_cfg.fim_url,
+        model = llm_cfg.model,
         api_type = 'openai',
 
         -- =================================================

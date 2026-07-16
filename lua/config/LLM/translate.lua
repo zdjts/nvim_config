@@ -1,10 +1,5 @@
--- lua/code/LLM/translate.lua
---
--- 'Translate' 工具的配置 (对应 <leader>at)
--- 这是一个使用了 'qa_handler' 的翻译工具
---
-
 local tools = require('llm.tools')
+local llm_cfg = require('config.LLM.backends')
 
 return {
     handler = tools.qa_handler,
@@ -23,10 +18,8 @@ return {
     - **只返回翻译后的文本**。不要包含任何介绍、解释、附注或 Markdown 标记。
     ]],
     opts = {
-        -- 所有的 UI 配置都从您的原始代码中迁移过来
-
-        url = 'https://api.siliconflow.cn/v1/chat/completions',
-        model = 'Qwen/Qwen3-Omni-30B-A3B-Instruct',
+        url = llm_cfg.chat_url,
+        model = llm_cfg.model,
         api_type = 'openai',
         component_width = '60%',
         component_height = '50%',
