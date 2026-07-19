@@ -3,9 +3,9 @@
 
 local M = {}
 
-M.base_url = 'http://127.0.0.1:4000'
-M.api_key = vim.env.LLM_KEY
-M.model = 'deepseek-v4-pro'
+M.base_url = vim.g.LLM_BASE_URL
+M.api_key = vim.g.LLM_API_KEY
+M.model = vim.g.LLM_MODEL
 M.chat_url = M.base_url .. '/v1/chat/completions'
 M.fim_url = M.base_url .. '/v1/completions'
 

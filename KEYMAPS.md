@@ -64,7 +64,7 @@
 | :----------- | :---------------------------------------- | :----- |
 | `<leader>at` | AI 翻译 (支持中英互译)                    |        |
 | `<leader>an` | AI 代码优化器 (对比差异)                  |        |
-| `<leader>ag` | 生成 Git 提交信息 (CommitMsg)             |        |
+| `<leader>ag` | 生成 AI 提交信息 (llm-commit.nvim)     | `lua/code/llm_commit.lua` |
 | `<leader>ad` | 生成文档字符串 (DocString)                |        |
 | `<leader>ar` | AI Bash 脚本运行器                        |        |
 | `<leader>al` | 切换 LLM 代码补全开启/关闭状态            |        |

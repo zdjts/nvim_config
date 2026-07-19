@@ -18,9 +18,9 @@ return {
                     provider = 'openai_fim_compatible',
                     provider_options = {
                         openai_fim_compatible = {
-                            model = 'deepseek-v4-pro',
-                            end_point = 'http://127.0.0.1:4000',
-                            api_key = vim.env.LLM_KEY,
+                            model = vim.g.LLM_MODEL,
+                            end_point = vim.g.LLM_BASE_URL,
+                            api_key = vim.g.LLM_API_KEY,
                             name = 'DeepSeek',
                             optional = { max_tokens = 256, top_p = 0.9 },
                         },

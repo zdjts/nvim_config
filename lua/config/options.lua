@@ -29,4 +29,4 @@ end
 -- AI 模型全局配置（所有插件统一引用）
 vim.g.LLM_BASE_URL = 'http://127.0.0.1:4000'
 vim.g.LLM_API_KEY = vim.env.LLM_KEY
-vim.g.LLM_MODEL = 'deepseek-v4-pro'
+vim.g.LLM_MODEL = 'gpt-5.6-luna'

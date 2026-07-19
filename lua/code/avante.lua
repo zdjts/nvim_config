@@ -25,9 +25,9 @@ return {
         providers = {
             local_deepseek = {
                 __inherited_from = 'openai',
-                endpoint = 'http://127.0.0.1:4000',
-                model = 'deepseek-v4-pro',
-                api_key_name = 'LLM_KEY',
+                endpoint = vim.g.LLM_BASE_URL,
+                model = vim.g.LLM_MODEL,
+                api_key = vim.g.LLM_API_KEY,
                 timeout = 30000,
                 extra_request_body = {
                     temperature = 0,

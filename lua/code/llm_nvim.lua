@@ -147,12 +147,6 @@ return {
             desc = 'AI 翻译器',
         },
         {
-            '<leader>ag',
-            mode = 'n',
-            '<cmd>LLMAppHandler CommitMsg<cr>',
-            desc = '生成 AI 提交信息',
-        },
-        {
             '<leader>ad',
             mode = 'v',
             '<cmd>LLMAppHandler DocString<cr>',
