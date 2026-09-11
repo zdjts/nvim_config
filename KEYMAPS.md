@@ -48,31 +48,18 @@
 
 ---
 
-## 3. LLM (人工智能) 功能 (`<leader>a`)
-
-### 交互会话
-
-| 快捷键       | 动作                                                  | 源文件 |
-| :----------- | :---------------------------------------------------- | :----- |
-| `<leader>ac` | 开启 AI 会话 (普通模式) / 附带选中文本聊天 (可视模式) |        |
-| `<leader>aa` | 临时 AI 聊天窗口 (ScratchChat)                        |        |
-| `<leader>ah` | 查看 AI 历史记录                                      |        |
-
-### 辅助工具
+## 3. LLM (人工智能) 功能 (`<leader>a` / `<leader>t`)
 
 | 快捷键       | 动作                                      | 源文件 |
 | :----------- | :---------------------------------------- | :----- |
-| `<leader>at` | AI 翻译 (支持中英互译)                    |        |
-| `<leader>an` | AI 代码优化器 (对比差异)                  |        |
-| `<leader>ag` | 生成 AI 提交信息 (llm-commit.nvim)     | `lua/code/llm_commit.lua` |
-| `<leader>ad` | 生成文档字符串 (DocString)                |        |
-| `<leader>ar` | AI Bash 脚本运行器                        |        |
+| `<leader>t`  | 翻译当前行 / 选中文本 (llm_translate)     | `lua/code/llm_translate.lua` |
+| `<leader>ag` | 生成 AI 提交信息 (llm-commit.nvim)        | `lua/code/llm_commit.lua` |
 | `<leader>al` | 切换 LLM 代码补全开启/关闭状态            |        |
 | `Alt + a`    | **(插入模式)** 采纳当前的行内代码补全建议 |        |
 
 ---
 
-## 4. 文件查找与 UI 开关 (`<leader>f` / `<leader>t`)
+## 4. 文件查找与 UI 开关 (`<leader>f`)
 
 ### 查找 (Snacks Picker)
 
@@ -88,8 +75,6 @@
 | 快捷键                 | 动作                        | 源文件 |
 | :--------------------- | :-------------------------- | :----- |
 | `<C-/>` / `<leader>ft` | 打开/关闭终端 (ToggleTerm)  |        |
-| `<leader>td`           | 切换 LSP 诊断显示           |        |
-| `<leader>th`           | 切换 Inlay Hints (内联提示) |        |
 | `<leader>uz`           | 禅模式 (Zen Mode)           |        |
 
 ---

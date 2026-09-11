@@ -16,7 +16,7 @@ return {
         -- },
         'nvim-mini/mini.icons',
     }, -- if you use standalone mini plugins
-    ft = { 'markdown', 'llm' },
+    ft = { 'markdown' },
     -- event = 'VeryLazy',
 
     config = function()

@@ -74,7 +74,6 @@ local keymaps = {
     { '<leader>f', group = ' file' },
     { '<leader>b', group = ' buffer' },
     { '<leader>l', group = ' lsp' },
-    { '<leader>t', group = '󰚙 toggle' },
     { '<leader>d', group = ' diagnostic' },
     { '<leader>g', group = ' git' },
     { '<leader>a', group = ' LLM' },
@@ -219,12 +218,10 @@ local keymaps = {
     { '<c-/>', '<cmd>ToggleTerm<CR>', desc = 'Toggle Terminal' },
     { '<leader>ft', '<cmd>ToggleTerm<CR>', desc = 'ToggleTerm' },
 
-    -- LLM 状态切换
+    -- LLM 补全开关（minuet-ai）
     {
         '<leader>al',
         function()
-            local s = require('llm.state').completion
-            s.enable = not s.enable
             vim.g.LLM_COMPLETION_STATUS = not vim.g.LLM_COMPLETION_STATUS
             print('LLM_COMPLETION_STATUS current is ' .. tostring(vim.g.LLM_COMPLETION_STATUS))
         end,
