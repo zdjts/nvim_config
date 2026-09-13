@@ -1,32 +1,30 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
--- vim.opt.spell = false
--- setting <localleader> is
-vim.g.maplocalleader = ','
--- -- vim.opt.clipboard = 'unnamedplus'
-vim.opt.clipboard = ''
+-- Must be set before lazy.nvim loads any plugin mappings.
 vim.g.mapleader = ' '
--- vim.o.relativenumber = true
+vim.g.maplocalleader = ','
+
+vim.opt.clipboard = ''
 vim.o.number = true
 vim.o.relativenumber = true
 
-vim.o.tabstop = 4 -- Tab 键宽度设置为 2 个空格
-vim.o.shiftwidth = 4 -- 自动缩进宽度设置为 2 个空格
-vim.o.expandtab = true -- 按 Tab 键时插入空格，而不是 Tab 字符
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
--- Disable netrw
+-- Disable netrw (oil is the file explorer)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.syntax = 'off'
 vim.opt.winborder = 'rounded'
+vim.opt.pumborder = 'rounded'
+-- Native 'autocomplete' is unused: blink.cmp owns insert completion.
+-- Experimental ui2 is unused: noice.nvim owns cmdline/messages UI.
 
 if vim.g.LLM_COMPLETION_STATUS == nil then
-    -- print('set llm_status')
     vim.g.LLM_COMPLETION_STATUS = true
 end
 
--- AI 模型全局配置（所有插件统一引用）
-vim.g.LLM_BASE_URL = 'http://127.0.0.1:4000'
-vim.g.LLM_API_KEY = vim.env.LLM_KEY
-vim.g.LLM_MODEL = 'grok-4.6'
+-- Shared by minuet / llm-commit / llm-translate.
+-- Lowercase vim.g is not stored in shada (:h shada-!).
+vim.g.llm_base_url = 'http://127.0.0.1:4000'
+vim.g.llm_api_key = vim.env.LLM_KEY
+vim.g.llm_model = 'glm-5.3-flash'

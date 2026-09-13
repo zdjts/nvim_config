@@ -1,17 +1,16 @@
-return {
-    'zdjts/llm-translate.nvim',
-    opts = {
+local M = {}
+
+function M.setup()
+    require('llm_translate').setup({
         engine = 'llm',
         from = 'auto',
         to = 'zh',
         llm = {
-            endpoint = vim.g.LLM_BASE_URL .. '/v1/chat/completions',
-            api_key = vim.g.LLM_API_KEY,
-            model = vim.g.LLM_MODEL,
+            endpoint = vim.g.llm_base_url .. '/v1/chat/completions',
+            api_key = vim.g.llm_api_key,
+            model = vim.g.llm_model,
         },
-    },
-    keys = {
-        { '<leader>t', '<cmd>LLMTranslate<cr>', mode = 'n', desc = 'Translate line' },
-        { '<leader>t', ':LLMTranslate<cr>', mode = 'v', desc = 'Translate selection' },
-    },
-}
+    })
+end
+
+return M

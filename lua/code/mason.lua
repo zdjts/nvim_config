@@ -1,4 +1,7 @@
-return {
-    'mason-org/mason.nvim',
-    opts = {},
-}
+local M = {}
+
+function M.setup()
+    require('mason').setup()
+end
+
+return M

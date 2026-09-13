@@ -1,5 +1,11 @@
 # Neovim 重装配置指南
 
+需要 **Neovim 0.12+**。插件由内置 [`vim.pack`](https://neovim.io/doc/user/pack.html#vim.pack) 管理（首次启动会克隆插件，锁文件为 `nvim-pack-lock.json`）。
+
+- 更新插件：`:PackUpdate`（新标签确认后 `:w` 应用）或 `<leader>pu`
+- 查看插件：`:PackStatus` / `:checkhealth vim.pack`
+- LSP 工具链仍用 Mason：`:Mason`
+
 ## 1. 配置文件下载
 
 使用以下命令克隆配置文件到用户目录：

@@ -1,7 +1,17 @@
--- ===================================================================
--- 1. LSP 快速启用
--- ===================================================================
-local servers = {
+-- Native LSP: configs live in <config>/lsp/<name>.lua and are merged by
+-- vim.lsp.enable() (see :h lsp-config).
+
+vim.lsp.config('*', {
+    capabilities = {
+        textDocument = {
+            semanticTokens = {
+                multilineTokenSupport = true,
+            },
+        },
+    },
+})
+
+vim.lsp.enable({
     'lua_ls',
     'clangd',
     'pyright',
@@ -15,72 +25,107 @@ local servers = {
     'cssls',
     'rust-analyzer',
     'tinymist',
-}
-for _, server in ipairs(servers) do
-    vim.lsp.enable(server)
-end
+})
 
--- ===================================================================
--- 2. 诊断图标定义
--- ===================================================================
 local diagnostic_icons = {
     ERROR = '',
     WARN = '',
     INFO = '',
-    HINT = '󰌵', -- 修正了部分字体图标
+    HINT = '󰌵',
 }
 
--- ===================================================================
--- 3. LSP 附加行为 (LspAttach)
--- ===================================================================
+local function open_diagnostic_float(bufnr)
+    vim.diagnostic.open_float({ bufnr = bufnr, scope = 'cursor' })
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my-lsp-attach-group', { clear = true }),
     callback = function(event)
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         local bufnr = event.buf
 
+        -- Neovim already maps: gra/grn/grr/gri/grt/grx, gO, K, ]d/[d, <C-w>d.
+        -- Do not map `gr` — it shadows the `gr*` prefix. Extra aliases below.
         local map = function(mode, lhs, rhs, desc)
-            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+            vim.keymap.set(mode, lhs, rhs, { buf = bufnr, silent = true, desc = desc })
         end
 
-        -- 基础跳转 (Neovim 0.12 API)
-        map('n', ']d', function()
-            vim.diagnostic.jump({ count = 1, float = true })
-        end, 'Next Diagnostic')
-        map('n', '[d', function()
-            vim.diagnostic.jump({ count = -1, float = true })
-        end, 'Prev Diagnostic')
+        map('n', 'gd', function()
+            vim.lsp.buf.definition()
+        end, 'LSP: Goto Definition')
+        map('n', 'gD', function()
+            vim.lsp.buf.declaration()
+        end, 'LSP: Goto Declaration')
+        map('n', '<leader>la', function()
+            vim.lsp.buf.code_action()
+        end, 'LSP: Code Action')
+        map('n', '<leader>ln', function()
+            vim.lsp.buf.rename()
+        end, 'LSP: Rename')
+        map('n', '<leader>ld', function()
+            vim.diagnostic.open_float()
+        end, 'LSP: Line Diagnostics')
+        map('n', '<leader>ls', function()
+            vim.lsp.buf.document_symbol()
+        end, 'LSP: Document Symbols')
+        map({ 'n', 'x' }, '<C-.>', function()
+            vim.lsp.buf.code_action()
+        end, 'LSP: Quick Fix')
 
-        -- 切换诊断 (基于实时状态)
         map('n', '<leader>td', function()
             local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
             vim.diagnostic.enable(not is_enabled, { bufnr = bufnr })
         end, 'LSP: Toggle diagnostics')
 
-        -- 1. 代码折叠
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange) then
-            vim.wo.foldmethod = 'expr'
-            vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-            vim.wo.foldlevel = 99
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win].foldmethod = 'expr'
+            vim.wo[win].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+            vim.wo[win].foldlevel = 99
         end
 
-        -- 2. Inlay Hints
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map('n', '<leader>th', function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
             end, 'LSP: Toggle Inlay Hints')
         end
 
-        -- 3. 单词高亮
+        if client and client:supports_method('textDocument/codeLens') then
+            vim.lsp.codelens.enable(true, { bufnr = bufnr, client_id = client.id })
+        end
+
+        if client and client:supports_method('textDocument/onTypeFormatting') then
+            vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
+        end
+
+        if client and client:supports_method('textDocument/linkedEditingRange') then
+            vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+        end
+
+        if client and client:supports_method('textDocument/inlineCompletion') then
+            vim.lsp.inline_completion.enable(true, { bufnr = bufnr, client_id = client.id })
+            vim.keymap.set('i', '<A-l>', function()
+                if not vim.lsp.inline_completion.get() then
+                    return '<A-l>'
+                end
+            end, { expr = true, buf = bufnr, desc = 'LSP: Accept inline completion' })
+            map('n', '<leader>ti', function()
+                vim.lsp.inline_completion.enable(
+                    not vim.lsp.inline_completion.is_enabled({ bufnr = bufnr }),
+                    { bufnr = bufnr }
+                )
+            end, 'LSP: Toggle inline completion')
+        end
+
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_grp = vim.api.nvim_create_augroup('my-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                buffer = bufnr,
+                buf = bufnr,
                 group = highlight_grp,
                 callback = vim.lsp.buf.document_highlight,
             })
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-                buffer = bufnr,
+                buf = bufnr,
                 group = highlight_grp,
                 callback = vim.lsp.buf.clear_references,
             })
@@ -88,25 +133,36 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
--- ===================================================================
--- 4. 诊断全局 UI 配置
--- ===================================================================
+vim.api.nvim_create_autocmd('LspDetach', {
+    group = vim.api.nvim_create_augroup('my-lsp-detach-group', { clear = true }),
+    callback = function(event)
+        vim.lsp.buf.clear_references()
+        vim.api.nvim_clear_autocmds({ group = 'my-lsp-highlight', buf = event.buf })
+    end,
+})
+
 vim.diagnostic.config({
     virtual_text = {
-        prefix = '󰄨 ', -- 更清晰的前缀图标
-        spacing = 4, -- 间距
-        source = 'if_many', -- 仅在有多个来源时显示来源
-        severity = vim.diagnostic.severity.WARNING, -- ← 只显示 WARNING 以上的虚拟文本
+        prefix = '󰄨 ',
+        spacing = 4,
+        source = 'if_many',
+        severity = { min = vim.diagnostic.severity.WARN },
     },
     float = {
-        severity_sort = true, -- 按严重程度排序
+        severity_sort = true,
         border = 'rounded',
-        source = true, -- 始终显示来源（知道来自哪个 LSP）
-        focusable = true, -- 可以聚焦浮窗
-        max_width = 80, -- 最大宽度（防止太长）
-        max_height = 20, -- 最大高度（防止太高）
-        header = '', -- 去掉标题行
-        prefix = '  ', -- 美观的前缀
+        source = true,
+        focusable = true,
+        max_width = 80,
+        max_height = 20,
+        header = '',
+        prefix = '  ',
+    },
+    -- 0.12: JumpOpts.float is deprecated; use on_jump.
+    jump = {
+        on_jump = function(_, bufnr)
+            open_diagnostic_float(bufnr)
+        end,
     },
     severity_sort = true,
     signs = {
@@ -129,14 +185,8 @@ vim.diagnostic.config({
     },
 })
 
--- ===================================================================
--- 5. 自定义命令
--- ===================================================================
+vim.api.nvim_create_user_command('LspInfo', 'checkhealth vim.lsp', { desc = 'LSP information' })
 
--- 重新定义 LspInfo，它实际上是执行 checkhealth lsp
-vim.api.nvim_create_user_command('LspInfo', 'checkhealth lsp', { desc = 'LSP information' })
-
--- 之前的 LspLog 命令保留
 vim.api.nvim_create_user_command('LspLog', function()
     vim.cmd('tabnew ' .. vim.fn.fnameescape(vim.lsp.log.get_filename()))
 end, { desc = 'Opens the Nvim LSP client log.' })

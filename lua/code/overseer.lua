@@ -1,18 +1,10 @@
--- lua/code/overseer.lua
-return {
-    'stevearc/overseer.nvim',
-    dependencies = { 'folke/snacks.nvim' },
-    cmd = {
-        'OverseerRun',
-        'OverseerToggle',
-        'OverseerBuild',
-        'OverseerClose',
-        'OverseerOpen',
-    },
-    opts = {
-        -- 任务列表弹窗的 UI 配置
+local M = {}
+
+function M.setup()
+    local overseer = require('overseer')
+    overseer.setup({
         task_list = {
-            direction = 'bottom', -- 窗口显示在底部
+            direction = 'bottom',
             min_height = 10,
             max_height = 20,
             default_detail = 1,
@@ -35,7 +27,24 @@ return {
                 ['}'] = 'NextTask',
             },
         },
-        -- 你的自定义模板
         templates = { 'make', 'shell', 'user.cpp_single_file', 'user.run_script' },
-    },
-}
+    })
+
+    vim.api.nvim_create_user_command('OverseerRestartLast', function()
+        local tasks = overseer.list_tasks({
+            status = {
+                overseer.STATUS.SUCCESS,
+                overseer.STATUS.FAILURE,
+                overseer.STATUS.CANCELED,
+            },
+            sort = require('overseer.task_list').sort_finished_recently,
+        })
+        if vim.tbl_isempty(tasks) then
+            vim.notify('No tasks found', vim.log.levels.WARN)
+        else
+            overseer.run_action(tasks[1], 'restart')
+        end
+    end, { desc = 'Restart last Overseer task' })
+end
+
+return M

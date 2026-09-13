@@ -1,6 +1,3 @@
-return {
-	{
-		"activitywatch/aw-watcher-vim",
-		lazy = false, -- 重点：必须启动时加载，否则不记录
-	},
-}
+-- Loaded eagerly via vim.pack + :packadd in lua/config/load.lua.
+-- No Lua setup; the Vim plugin records ActivityWatch events on its own.
+return {}

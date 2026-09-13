@@ -1,11 +1,50 @@
-local wk = require('which-key')
+-- Plugin-independent keymaps and filetype-local task/preview maps.
+-- Plugin-owned maps (flash, conform, snacks, oil, toggleterm, bufferline, LLM
+-- plugins) are declared in each plugin spec so lazy.nvim can load on keypress.
+
+local map = function(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
+end
+
+-- Window navigation
+map('n', '<C-h>', '<C-w>h', 'Window left')
+map('n', '<C-j>', '<C-w>j', 'Window down')
+map('n', '<C-k>', '<C-w>k', 'Window up')
+map('n', '<C-l>', '<C-w>l', 'Window right')
+
+-- Severity-filtered diagnostic jumps (]d/[d are Neovim defaults)
+map('n', ']e', function()
+    vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
+end, 'Next Error')
+map('n', '[e', function()
+    vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
+end, 'Prev Error')
+map('n', ']w', function()
+    vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN })
+end, 'Next Warning')
+map('n', '[w', function()
+    vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN })
+end, 'Prev Warning')
+
+map('n', '<leader>fn', '<cmd>enew<cr>', 'Create File')
+
+-- Neovim 0.12 builtins
+map('n', '<leader>uu', '<cmd>Undotree<cr>', 'Undo tree')
+map('n', '<leader>pu', '<cmd>PackUpdate<cr>', 'Update plugins')
+map('n', '<leader>ps', '<cmd>PackStatus<cr>', 'Plugin status')
+
+-- LLM 补全开关（minuet-ai reads this global; plugin itself loads on InsertEnter）
+map('n', '<leader>al', function()
+    vim.g.LLM_COMPLETION_STATUS = not vim.g.LLM_COMPLETION_STATUS
+    vim.notify('LLM_COMPLETION_STATUS = ' .. tostring(vim.g.LLM_COMPLETION_STATUS))
+end, 'Toggle LLM Completion')
 
 -- =============================================================================
--- 1. 自动命令组定义 (用于管理动态键位)
+-- FileType-local run / preview maps
+-- Dummy commands from plugin `cmd`/`ft` specs make these lazy-load correctly.
 -- =============================================================================
 local run_key_group = vim.api.nvim_create_augroup('UserRunKeyGroup', { clear = true })
 
--- 黑名单：在这些文件类型中，完全不加载 Overseer 的快捷键
 local overseer_blacklist = {
     python = true,
     ipynb = true,
@@ -14,220 +53,37 @@ local overseer_blacklist = {
     html = true,
 }
 
--- =============================================================================
--- 2. 动态键位注入逻辑
--- =============================================================================
+local function buf_map(bufnr, lhs, rhs, desc)
+    vim.keymap.set('n', lhs, rhs, { buf = bufnr, silent = true, desc = desc })
+end
 
--- A. Overseer 注入 (仅针对非黑名单文件)
 vim.api.nvim_create_autocmd('FileType', {
     group = run_key_group,
     pattern = '*',
     callback = function(ev)
-        if not overseer_blacklist[vim.bo[ev.buf].filetype] then
-            wk.add({
-                {
-                    buffer = ev.buf,
-                    { '<localleader>rr', '<cmd>OverseerRun<cr>', desc = 'Run Task (List)' },
-                    { '<localleader>rl', '<cmd>OverseerToggle<cr>', desc = 'Toggle Task List' },
-                    { '<localleader>rb', '<cmd>OverseerBuild<cr>', desc = 'Task Builder' },
-                    { '<localleader>rc', '<cmd>OverseerRunCmd<cr>', desc = 'Run Command' },
-                    { '<localleader>rq', '<cmd>OverseerQuickAction<cr>', desc = 'Quick Action' },
-                    { '<localleader>ri', '<cmd>OverseerInfo<cr>', desc = 'Overseer Info' },
-                    { '<localleader>re', '<cmd>OverseerRestartLast<cr>', desc = 'Restart Last Task' },
-                },
-            })
+        if overseer_blacklist[vim.bo[ev.buf].filetype] then
+            return
         end
+        buf_map(ev.buf, '<localleader>rr', '<cmd>OverseerRun<cr>', 'Run Task (List)')
+        buf_map(ev.buf, '<localleader>rl', '<cmd>OverseerToggle<cr>', 'Toggle Task List')
+        buf_map(ev.buf, '<localleader>rc', '<cmd>OverseerShell<cr>', 'Run Shell Command')
+        buf_map(ev.buf, '<localleader>rq', '<cmd>OverseerTaskAction<cr>', 'Task Action')
+        buf_map(ev.buf, '<localleader>re', '<cmd>OverseerRestartLast<cr>', 'Restart Last Task')
     end,
 })
 
--- B. 预览类文件注入 (Markdown, Typst, HTML)
 vim.api.nvim_create_autocmd('FileType', {
     group = run_key_group,
     pattern = { 'markdown', 'typst', 'html' },
     callback = function(ev)
-        local ft = vim.bo[ev.buf].filetype
-        local spec = {
-            markdown = {
-                desc = 'Preview: Markdown',
-                cmd = function()
-                    vim.cmd('MarkdownPreview')
-                end,
-            },
-            typst = { desc = 'Preview: Typst', cmd = '<cmd>TypstPreview<cr>' },
-            html = { desc = 'Preview: HTML', cmd = '<cmd>LivePreview start<cr>' },
+        local cmds = {
+            markdown = { '<cmd>MarkdownPreview<cr>', 'Preview: Markdown' },
+            typst = { '<cmd>TypstPreview<cr>', 'Preview: Typst' },
+            html = { '<cmd>LivePreview start<cr>', 'Preview: HTML' },
         }
-
-        local current = spec[ft]
-        if current then
-            wk.add({
-                { '<localleader>rr', current.cmd, desc = current.desc, buffer = ev.buf },
-            })
+        local spec = cmds[vim.bo[ev.buf].filetype]
+        if spec then
+            buf_map(ev.buf, '<localleader>rr', spec[1], spec[2])
         end
     end,
 })
-
--- =============================================================================
--- 3. 全局静态快捷键定义
--- =============================================================================
-local keymaps = {
-    -- 分组定义
-    { '<leader>f', group = ' file' },
-    { '<leader>b', group = ' buffer' },
-    { '<leader>l', group = ' lsp' },
-    { '<leader>d', group = ' diagnostic' },
-    { '<leader>g', group = ' git' },
-    { '<leader>a', group = ' LLM' },
-    { '<leader>c', group = ' code' },
-    { '<leader>u', group = '󱖫 use status' },
-    { '<localleader>r', group = '󰐊 run/task' },
-
-    -- 窗口导航
-    { '<C-h>', '<C-w>h', desc = 'Window left' },
-    { '<C-j>', '<C-w>j', desc = 'Window down' }, -- 修正笔误
-    { '<C-k>', '<C-w>k', desc = 'Window up' },
-    { '<C-l>', '<C-w>l', desc = 'Window right' },
-
-    -- 诊断跳转
-    {
-        ']e',
-        function()
-            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
-        end,
-        desc = 'Next Error',
-    },
-    {
-        '[e',
-        function()
-            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
-        end,
-        desc = 'Prev Error',
-    },
-    {
-        ']w',
-        function()
-            vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })
-        end,
-        desc = 'Next Warning',
-    },
-    {
-        '[w',
-        function()
-            vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })
-        end,
-        desc = 'Prev Warning',
-    },
-
-    -- 文件与 Buffer
-    { '<leader>fn', '<cmd>e<cr>', desc = 'Create File' },
-    { '[b', '<cmd>BufferLineCyclePrev<cr>', desc = 'Previous Buffer' },
-    { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
-
-    -- LSP 核心功能
-    -- { 'gd', vim.lsp.buf.definition, desc = 'LSP: Goto Definition' },
-    -- { 'gr', vim.lsp.buf.references, desc = 'LSP: Goto References' },
-    -- { 'gD', vim.lsp.buf.declaration, desc = 'LSP: Goto Declaration' },
-    -- { 'K', vim.lsp.buf.hover, desc = 'LSP: Hover Documentation' },
-    -- { '<leader>la', vim.lsp.buf.code_action, desc = 'LSP: Code Action' },
-    -- { '<leader>ln', vim.lsp.buf.rename, desc = 'LSP: Rename' },
-    -- { '<leader>ld', vim.diagnostic.open_float, desc = 'LSP: Line Diagnostics' },
-
-    {
-        'gd',
-        function()
-            vim.lsp.buf.definition()
-        end,
-        desc = 'LSP: Goto Definition',
-    },
-    {
-        'gr',
-        function()
-            vim.lsp.buf.references()
-        end,
-        desc = 'LSP: Goto References',
-    },
-    {
-        'gD',
-        function()
-            vim.lsp.buf.declaration()
-        end,
-        desc = 'LSP: Goto Declaration',
-    },
-    {
-        'K',
-        function()
-            vim.lsp.buf.hover()
-        end,
-        desc = 'LSP: Hover Documentation',
-    },
-    {
-        '<leader>la',
-        function()
-            vim.lsp.buf.code_action()
-        end,
-        desc = 'LSP: Code Action',
-    },
-    {
-        '<leader>ln',
-        function()
-            vim.lsp.buf.rename()
-        end,
-        desc = 'LSP: Rename',
-    },
-    {
-        '<leader>ld',
-        function()
-            vim.diagnostic.open_float()
-        end,
-        desc = 'LSP: Line Diagnostics',
-    },
-
-    {
-        '<leader>ls',
-        function()
-            vim.lsp.buf.document_symbol()
-        end,
-        desc = 'LSP: Document Symbols',
-    },
-    { '<C-.>', vim.lsp.buf.code_action, desc = 'LSP: Quick Fix' },
-
-    -- 功能插件
-    {
-        's',
-        function()
-            require('flash').jump()
-        end,
-        desc = 'Flash',
-        mode = { 'n', 'x', 'o' },
-    },
-    {
-        'S',
-        function()
-            require('flash').treesitter()
-        end,
-        desc = 'Flash Treesitter',
-        mode = { 'n', 'x', 'o' },
-    },
-    {
-        '<leader>fc',
-        function()
-            require('conform').format({ async = true, lsp_fallback = true })
-        end,
-        desc = 'Format Buffer',
-        mode = { 'n', 'v' },
-    },
-    { '<c-/>', '<cmd>ToggleTerm<CR>', desc = 'Toggle Terminal' },
-    { '<leader>ft', '<cmd>ToggleTerm<CR>', desc = 'ToggleTerm' },
-
-    -- LLM 补全开关（minuet-ai）
-    {
-        '<leader>al',
-        function()
-            vim.g.LLM_COMPLETION_STATUS = not vim.g.LLM_COMPLETION_STATUS
-            print('LLM_COMPLETION_STATUS current is ' .. tostring(vim.g.LLM_COMPLETION_STATUS))
-        end,
-        desc = 'Toggle LLM Completion',
-    },
-}
-
--- 应用全局键位
-wk.add(keymaps)

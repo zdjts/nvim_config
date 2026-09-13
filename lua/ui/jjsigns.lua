@@ -1,6 +1,7 @@
-return {
-    'evanphx/jjsigns.nvim',
-    config = function()
-        require('jjsigns').setup()
-    end,
-}
+local M = {}
+
+function M.setup()
+    require('jjsigns').setup()
+end
+
+return M

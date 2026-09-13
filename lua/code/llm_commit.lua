@@ -1,14 +1,14 @@
-return {
-    'zdjts/llm-commit.nvim',
-    opts = {
+local M = {}
+
+function M.setup()
+    require('llm_commit').setup({
         provider = {
-            endpoint = vim.g.LLM_BASE_URL .. '/v1/chat/completions',
-            api_key = vim.g.LLM_API_KEY,
-            model = vim.g.LLM_MODEL,
+            endpoint = vim.g.llm_base_url .. '/v1/chat/completions',
+            api_key = vim.g.llm_api_key,
+            model = vim.g.llm_model,
         },
         vcs = 'jj',
-    },
-    keys = {
-        { '<leader>ag', '<cmd>LLMCommit<cr>', desc = 'LLM Commit' },
-    },
-}
+    })
+end
+
+return M

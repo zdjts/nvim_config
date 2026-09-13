@@ -1,27 +1,25 @@
-return {
-    {
-        'akinsho/bufferline.nvim',
-        event = 'VeryLazy',
-        -- 依赖图标插件
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+local M = {}
 
-        opts = {
-            options = {
-                diagnostics = 'nvim_lsp',
-                -- Add this section to show diagnostic counts
-                diagnostics_indicator = function(count, level, diagnostics_dict, context)
-                    local icon = level:match('error') and ' ' or ' '
-                    return ' ' .. icon .. count
-                end,
-                show_buffer_icons = true, -- 显示图标
-                offsets = {
-                    {
-                        filetype = 'oil',
-                        text = '文件浏览器',
-                        text_align = 'left',
-                    },
+function M.setup()
+    require('bufferline').setup({
+        options = {
+            diagnostics = 'nvim_lsp',
+            diagnostics_indicator = function(count, level)
+                local icon = level:match('error') and ' ' or ' '
+                return ' ' .. icon .. count
+            end,
+            show_buffer_icons = true,
+            offsets = {
+                {
+                    filetype = 'oil',
+                    text = '文件浏览器',
+                    text_align = 'left',
                 },
             },
         },
-    },
-}
+    })
+    vim.keymap.set('n', '[b', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Previous Buffer' })
+    vim.keymap.set('n', ']b', '<cmd>BufferLineCycleNext<cr>', { desc = 'Next Buffer' })
+end
+
+return M

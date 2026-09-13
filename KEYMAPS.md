@@ -25,26 +25,39 @@
 
 ## 2. LSP 与代码功能 (`<leader>l` / `g`)
 
-### 基础跳转与悬浮
+Neovim 0.12 内置全局 LSP 键（不要映射 `gr`，否则会挡住 `gr*` 前缀）：
 
-| 快捷键 | 动作         | 源文件 |
-| :----- | :----------- | :----- |
-| `gd`   | 跳转到定义   |        |
-| `gr`   | 查看引用     |        |
-| `gD`   | 跳转到声明   |        |
-| `K`    | 显示悬浮文档 |        |
+| 快捷键 | 动作 |
+| :----- | :--- |
+| `gra` | Code Action |
+| `grn` | Rename |
+| `grr` | References |
+| `gri` | Implementation |
+| `grt` | Type Definition |
+| `grx` | Code Lens |
+| `gO` | Document Symbols |
+| `K` | Hover |
+| `[d` / `]d` | 上一个/下一个诊断 |
+| `<C-w>d` | 当前诊断浮窗 |
 
-### 重构与诊断
+### 额外别名与跳转
 
-| 快捷键       | 动作                     | 源文件 |
-| :----------- | :----------------------- | :----- |
-| `<leader>la` | 代码操作 (Code Action)   |        |
-| `<leader>ln` | 重命名 (Rename)          |        |
-| `<leader>ld` | 显示当前行诊断详情       |        |
-| `<leader>fc` | 格式化当前文件 (Conform) |        |
-| `[d` / `]d`  | 上一个/下一个诊断        |        |
-| `[e` / `]e`  | 上一个/下一个错误        |        |
-| `[w` / `]w`  | 上一个/下一个警告        |        |
+| 快捷键 | 动作 | 源文件 |
+| :----- | :--- | :----- |
+| `gd` | 跳转到定义 | `lua/lsp/lsp.lua` |
+| `gD` | 跳转到声明 | `lua/lsp/lsp.lua` |
+| `<leader>la` | 代码操作 (Code Action) | `lua/lsp/lsp.lua` |
+| `<leader>ln` | 重命名 (Rename) | `lua/lsp/lsp.lua` |
+| `<leader>ld` | 显示当前行诊断详情 | `lua/lsp/lsp.lua` |
+| `<leader>ls` | 文档符号 | `lua/lsp/lsp.lua` |
+| `<leader>th` | 开关 Inlay Hints | `lua/lsp/lsp.lua` |
+| `<leader>td` | 开关 diagnostics | `lua/lsp/lsp.lua` |
+| `<leader>ti` | 开关 LSP inline completion（服务器支持时） | `lua/lsp/lsp.lua` |
+| `<A-l>` | **(插入模式)** 采纳 LSP inline completion | `lua/lsp/lsp.lua` |
+| `grx` | 运行 Code Lens | Neovim 0.12 默认 |
+| `<leader>fc` | 格式化当前文件 (Conform) | `lua/code/conform.lua` |
+| `[e` / `]e` | 上一个/下一个错误 | `lua/config/keymaps.lua` |
+| `[w` / `]w` | 上一个/下一个警告 | `lua/config/keymaps.lua` |
 
 ---
 
@@ -89,6 +102,8 @@
 | :----- | :--------------- | :----- |
 | `,rr`  | 运行任务列表     |        |
 | `,rl`  | 切换任务列表窗口 |        |
+| `,rc`  | 运行 Shell 命令 (`:OverseerShell`) |        |
+| `,rq`  | 任务动作 (`:OverseerTaskAction`) |        |
 | `,re`  | 重启上一个任务   |        |
 
 ### Python (Iron.nvim REPL)
@@ -121,3 +136,6 @@
 
 - **快速跳转**: `s` 触发 Flash 跳转，`S` 触发 Flash Treesitter 选择。
 - **终端模式**: 在终端内按 `<Esc>` 可退出输入模式回到普通模式。
+- **Undo tree** (`:Undotree`): `<leader>uu`
+- **插件更新** (`vim.pack`): `<leader>pu` 更新（新标签确认后 `:w` 应用），`<leader>ps` 查看状态。
+- **LSP 管理**: `:lsp`（0.12 内置）。

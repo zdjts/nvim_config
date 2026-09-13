@@ -3,14 +3,10 @@ return {
     cmd = { 'lua-language-server' },
     filetypes = { 'lua' },
     root_markers = {
-        '.emmyrc.json',
-        '.luarc.json',
-        '.luarc.jsonc',
+        { '.luarc.json', '.luarc.jsonc', '.emmyrc.json' },
+        { '.stylua.toml', 'stylua.toml' },
+        { 'selene.toml', 'selene.yml' },
         '.luacheckrc',
-        '.stylua.toml',
-        'stylua.toml',
-        'selene.toml',
-        'selene.yml',
         '.git',
     },
     settings = {
@@ -31,9 +27,9 @@ return {
             -- 工作空间库配置：包含 Neovim 和 LuaJIT 的类型定义
             workspace = {
                 library = {
-                    vim.fn.expand('$VIMRUNTIME/lua'),
-                    vim.fn.expand('${3rd}/luv/library'),
-                    vim.fn.expand('${3rd}/busted/library'),
+                    vim.env.VIMRUNTIME .. '/lua',
+                    '${3rd}/luv/library',
+                    '${3rd}/busted/library',
                 },
                 checkThirdParty = 'Fallback',
                 maxPreload = 5000,
